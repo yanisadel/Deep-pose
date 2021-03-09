@@ -2,7 +2,7 @@ import mediapipe as mp
 import cv2
 
 
-def points_image_from_path(path="hand5.jpg", min_detection_confidence=0.7, display=True):
+def points_image_from_path(path="photos/hand5.jpg", min_detection_confidence=0.7, display=True):
     """
     points_image retourne un dictionnaire contenant les positions des différents points de la main (index, pouce...)
     Il y a 21 points différents accessibles indexés de 0 à 20 (voir la documentation de mediapipe)
