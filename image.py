@@ -2,7 +2,7 @@ import mediapipe as mp
 import cv2
 
 
-def points_image_from_path(path="hand5.jpg", min_detection_confidence=0.7, display=True):
+def points_image_from_path(path="photos/hand5.jpg", min_detection_confidence=0.7, display=True):
     """
     points_image retourne un dictionnaire contenant les positions des différents points de la main (index, pouce...)
     Il y a 21 points différents accessibles indexés de 0 à 20 (voir la documentation de mediapipe)
@@ -98,11 +98,10 @@ def points_image_from_path(path="hand5.jpg", min_detection_confidence=0.7, displ
                 position = hand_landmarks.landmark[indice] # éventuellement multiplier par image_width pour les x, et height pour les y
                 res[l[i]][indice] = position
 
-            if display:
-                mp_drawing.draw_landmarks(
+            mp_drawing.draw_landmarks(
                     annotated_image, hand_landmarks, mp_hands.HAND_CONNECTIONS)
                 
-                i += 1
+            i += 1
 
         if display:
             cv2.imshow("image", cv2.flip(annotated_image, 1))
@@ -207,8 +206,8 @@ def points_image_from_image(image, min_detection_confidence=0.7, display=True):
                 position = hand_landmarks.landmark[indice] # éventuellement multiplier par image_width pour les x, et height pour les y
                 res[l[i]][indice] = position
 
-            if display:
-                mp_drawing.draw_landmarks(
+            
+            mp_drawing.draw_landmarks(
                     annotated_image, hand_landmarks, mp_hands.HAND_CONNECTIONS)
             
             i += 1
