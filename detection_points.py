@@ -73,7 +73,7 @@ def points_image(image, min_detection_confidence=0.7, display=True):
         print("Aucune main n'a été reconnue sur l'image")
         if display:
             affiche_image(image)
-        return None
+        return None, None
 
     # Ici, on a donc trouvé soit une, soit deux mains    
     else:
@@ -98,10 +98,9 @@ def points_image(image, min_detection_confidence=0.7, display=True):
                 position = hand_landmarks.landmark[indice] # éventuellement multiplier par image_width pour les x, et height pour les y
                 res[l[i]][indice] = position
 
-            if display:
-                mp_drawing = mp.solutions.drawing_utils
-                mp_hands = mp.solutions.hands
-                mp_drawing.draw_landmarks(
+            mp_drawing = mp.solutions.drawing_utils
+            mp_hands = mp.solutions.hands
+            mp_drawing.draw_landmarks(
                     annotated_image, hand_landmarks, mp_hands.HAND_CONNECTIONS)
                 
             i += 1
@@ -162,8 +161,8 @@ def points_video(video, min_detection_confidence=0.7, display=True):
 
     Arguments
     ---------
-    path: str
-        chemin de la vidéo qu'on analyse
+    video: video cv2
+        video qu'on analyse
     
     min_detection_confidence: float
         le degré de confiance que l'on veut quant à la précision de l'analyse 
@@ -176,11 +175,13 @@ def points_video(video, min_detection_confidence=0.7, display=True):
     for frame in generateur_decoupe_video(video):
         points, image = points_image(frame, min_detection_confidence, display=False)
         # yield points
-        if display:
+        if display and (type(image) != type(None)):
             cv2.imshow("frame", image)
             cv2.waitKey()
+
     if display:
         cv2.destroyAllWindows()
+
 
 def points_video_from_path(path='video_test.mp4', min_detection_confidence=0.7, display=True):
     """
@@ -201,5 +202,8 @@ def points_video_from_path(path='video_test.mp4', min_detection_confidence=0.7, 
     """
     video = cv2.VideoCapture(path)
     points_video(video, min_detection_confidence, display)
-    
 
+
+# points_video_from_path()
+
+cv2.destroyAllWindows()
