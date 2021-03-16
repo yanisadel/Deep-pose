@@ -1,5 +1,4 @@
 import tensorflow as tf
-from detection_points import *
 
 def transforme_dictionnaire_points(d):
     """
@@ -28,6 +27,8 @@ def transforme_data(l):
         main_gauche.append(transforme_dictionnaire_points(l[i]['Left']))
         main_droite.append(transforme_dictionnaire_points(l[i]['Right']))
     return main_gauche, main_droite
+
+from detection_points import *
 
 l = points_video_from_path()
 g, d = transforme_data(l)
