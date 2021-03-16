@@ -170,17 +170,20 @@ def points_video(video, min_detection_confidence=0.7, display=True):
     display: bool
         vaut True si la fonction doit afficher la vidéo
         False sinon
+
+    Returns
+    -------
+    Une liste où l'indice i correspond à la frame i de la vidéo, et l[i] contient le dictionnaire {left: [...]}
     """
+
+    list_points = []
 
     for frame in generateur_decoupe_video(video):
         points, image = points_image(frame, min_detection_confidence, display=False)
-        # yield points
-        if display and (type(image) != type(None)):
-            cv2.imshow("frame", image)
-            cv2.waitKey()
-
-    if display:
-        cv2.destroyAllWindows()
+        if (type(points) != type(None)):
+            list_points.append(points)
+    
+    return list_points
 
 
 def points_video_from_path(path='video_test.mp4', min_detection_confidence=0.7, display=True):
@@ -201,9 +204,5 @@ def points_video_from_path(path='video_test.mp4', min_detection_confidence=0.7, 
         False sinon
     """
     video = cv2.VideoCapture(path)
-    points_video(video, min_detection_confidence, display)
+    return points_video(video, min_detection_confidence, display)
 
-
-# points_video_from_path()
-
-cv2.destroyAllWindows()
