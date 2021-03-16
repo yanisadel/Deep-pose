@@ -1,4 +1,4 @@
-import tensorflow as tf
+from detection_points import *
 
 def transforme_dictionnaire_points(d):
     """
@@ -15,7 +15,7 @@ def transforme_dictionnaire_points(d):
         return l
 
 
-def transforme_data(l):
+def transforme_liste_points_video(l):
     """
     Transforme la liste des points d'une vidéo (qui contient des dictionnaires) en une liste de listes (grâce à la fonction transforme_dictionnaire_points)
     """
@@ -28,10 +28,13 @@ def transforme_data(l):
         main_droite.append(transforme_dictionnaire_points(l[i]['Right']))
     return main_gauche, main_droite
 
-from detection_points import *
 
-l = points_video_from_path()
-g, d = transforme_data(l)
+def nettoie_data(l):
+    return [l[i] for i in range(len(l)) if l[i] != []]
 
-a = l[0]['Right']
-b = transforme_dictionnaire_points(a)
+
+def renvoie_liste_points_video():
+    l = points_video_from_path()
+    g, d = transforme_liste_points_video(l)
+    return g, d
+
