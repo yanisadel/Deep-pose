@@ -34,5 +34,9 @@ def affichage_video(video):
 
 def affichage_video_from_path(path):
     video = cv2.VideoCapture(path)
+    print(type(video))
     affichage_video(video)
 
+if __name__ == '__main__':
+    affichage_video_from_path("output.avi")
+    

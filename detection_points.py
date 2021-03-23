@@ -2,7 +2,7 @@ import mediapipe as mp
 import cv2
 from formatage import *
 from affichage import *
-
+from cv2 import VideoWriter, VideoWriter_fourcc, imread, resize
 
 def image_process(image, min_detection_confidence=0.7):
     # On charge le modèle
@@ -70,7 +70,7 @@ def points_image(image, min_detection_confidence=0.7, display=True):
 
     # Si on n'a trouvé 0 main, on renvoie None
     if list_hands == None:
-        print("Aucune main n'a été reconnue sur l'image")
+        #print("Aucune main n'a été reconnue sur l'image")
         if display:
             affiche_image(image)
         return None, None
@@ -108,8 +108,6 @@ def points_image(image, min_detection_confidence=0.7, display=True):
         annotated_image = flip_image(annotated_image)
         if display:
             affiche_image(annotated_image)
-            
-
         return res, annotated_image
 
 
@@ -176,7 +174,9 @@ def points_video(video, min_detection_confidence=0.7, display=True):
         points, image = points_image(frame, min_detection_confidence, display=False)
         # yield points
         if display and (type(image) != type(None)):
-            cv2.imshow("frame", image)
+            cv2.namedWindow("output", cv2.WINDOW_NORMAL)        # Create window with freedom of dimensions                     # Read image
+            im = cv2.resize(image, (2000, 2000))                    # Resize image
+            cv2.imshow("output", im)                            # Show image
             cv2.waitKey()
 
     if display:
@@ -203,7 +203,61 @@ def points_video_from_path(path='video_test.mp4', min_detection_confidence=0.7, 
     video = cv2.VideoCapture(path)
     points_video(video, min_detection_confidence, display)
 
+def make_video(images,outimg=None,fps=5,size=None,is_color=True,format='XVID'):
+    print(images)
+    fourcc=VideoWriter_fourcc(*format)
+    vid=None
+    for image in images:
+        img=image
+        if vid is None:
+            if size is None:
+                size=img.shape[1],img.shape[0]
+            vid=VideoWriter('output.avi',fourcc,float(fps),size, is_color)
+        if size[0]!=img.shape[1] and size[1]!=img.shape[0]:
+            img=resize(img,size)
+        vid.write(img)
+    affichage_video(vid)
+    vid.release()
+    print(type(vid))
+
+
+
+
+def images_from_video(video, min_detection_confidence=0.7, display=True):
+    """
+    Cette fonction récupère tous les points de la main sur une vidéo
+    Elle découpe la vidéo en frames, et pour chacune des frames, récupère les points de la main grâce à la fonction points_image_from_image
+    elle renvoie la liste des images
+    Arguments
+    ---------
+    video: video cv2
+        video qu'on analyse
+    
+    min_detection_confidence: float
+        le degré de confiance que l'on veut quant à la précision de l'analyse 
+    
+    display: bool
+        vaut True si la fonction doit afficher la vidéo
+        False sinon
+    """
+    images=[]
+    i=0
+    for frame in generateur_decoupe_video(video):
+        points, image = points_image(frame, min_detection_confidence, display=False)
+        if type(image)!=type(None):
+            images.append(image)
+    return images
+
+def detection_main(path, min_detection_confidence=0.7, display=True):
+    video = cv2.VideoCapture(path)
+    images=images_from_video(video, min_detection_confidence, display)
+    make_video(images)
+
 
 # points_video_from_path()
 
 cv2.destroyAllWindows()
+
+if __name__ == '__main__':
+    #points_video_from_path("dataset/gesture/video2.mp4")
+    detection_main("dataset/gesture/video2.mp4")
