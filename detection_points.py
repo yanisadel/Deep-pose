@@ -204,7 +204,6 @@ def points_video_from_path(path='video_test.mp4', min_detection_confidence=0.7, 
     points_video(video, min_detection_confidence, display)
 
 def make_video(images,outimg=None,fps=5,size=None,is_color=True,format='XVID'):
-    print(images)
     fourcc=VideoWriter_fourcc(*format)
     vid=None
     for image in images:
@@ -216,9 +215,10 @@ def make_video(images,outimg=None,fps=5,size=None,is_color=True,format='XVID'):
         if size[0]!=img.shape[1] and size[1]!=img.shape[0]:
             img=resize(img,size)
         vid.write(img)
-    affichage_video(vid)
-    vid.release()
     print(type(vid))
+    #affichage_video(vid)
+    vid.release()
+
 
 
 
@@ -260,4 +260,4 @@ cv2.destroyAllWindows()
 
 if __name__ == '__main__':
     #points_video_from_path("dataset/gesture/video2.mp4")
-    detection_main("dataset/gesture/video2.mp4")
+    detection_main("dataset/video_maison/WIN_20210323_15_19_36_Pro_coupe.mp4")
