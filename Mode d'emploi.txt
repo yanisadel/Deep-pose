@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 1) Il faut d'abord mettre les images dans le dataset
 Dans le dossier Data, puis dans le dossier Signes, il faut mettre les photos 
 correspondantes dans chacun des sous-dossiers (numérotés 1, 2, 3, 4...)
@@ -8,4 +9,16 @@ Et pareil pour le dossier Niveaux
 Il faut juste exécuter le fichier "data.py" dans vscode
 
 3) Créer le modèle de reconnaissance
+=======
+1) Il faut d'abord mettre les images dans le dataset
+Dans le dossier Data, puis dans le dossier Signes, il faut mettre les photos 
+correspondantes dans chacun des sous-dossiers (numérotés 1, 2, 3, 4...)
+(--> voir l'image "signes.png" dans le dossier Signes)
+Et pareil pour le dossier Niveaux
+
+2) Créer le dataset
+Il faut juste exécuter le fichier "data.py" dans vscode
+
+3) Créer le modèle de reconnaissance
+>>>>>>> c9ff0ab8f8b2e63cddd478911dd1c90068c48ae4
 Dans le fichier "predictions.py"
