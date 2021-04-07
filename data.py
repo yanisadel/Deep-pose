@@ -191,8 +191,9 @@ def fill_csv_niveaux(min_detection_confidence=0.7, show_error=True):
         if show_error:
             print("Le pourcentage d'échecs par catégorie est : ", echecs)
 
-
-# Il faut ces lignes là pour remplir les fichiers excel (qui constituent le dataset)
-min_detection_confidence = 0.5
-fill_csv_signes(min_detection_confidence=min_detection_confidence)
-fill_csv_niveaux(min_detection_confidence=min_detection_confidence)
+if __name__ == '__main__':
+        
+    # Il faut ces lignes là pour remplir les fichiers excel (qui constituent le dataset)
+    min_detection_confidence = 0.5
+    fill_csv_signes(min_detection_confidence=min_detection_confidence)
+    fill_csv_niveaux(min_detection_confidence=min_detection_confidence)
