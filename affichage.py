@@ -37,6 +37,3 @@ def affichage_video_from_path(path):
     print(type(video))
     affichage_video(video)
 
-if __name__ == '__main__':
-    affichage_video_from_path("output.avi")
-    
