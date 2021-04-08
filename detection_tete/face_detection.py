@@ -56,11 +56,11 @@ def detect_face(image):
         #print("3 --> ", roi_color)
         #print("4 --> ", eyes)
 
-        for (ex,ey,ew,eh) in eyes:
-            cv2.rectangle(roi_color,(ex,ey),(ex+ew,ey+eh),(0,255,0),2)
-            print("Coordonnées du rectangle autour du visage --> ", (x,y),(x+w,y+h))
-            res.append([(x, y), (x + w, y + h)])
-        return res
+        #for (ex,ey,ew,eh) in eyes:
+            #cv2.rectangle(roi_color,(ex,ey),(ex+ew,ey+eh),(0,255,0),2)
+            #print("Coordonnées du rectangle autour du visage --> ", (x,y),(x+w,y+h))
+            #res.append([(x, y), (x + w, y + h)])
+        return image
 
 def coordinate_face(image):
     image=resize_image(image)
@@ -75,6 +75,7 @@ def coordinate_face(image):
         roi_color = image[y:y+h, x:x+w]
         eyes = eye_cascade.detectMultiScale(roi_gray)
         return((x,y),(x+w,y),(x+w,y+h),(x,y+h))
+    return(None)
  
 def HOG_Gray(image):
     fd, hog_image = hog(image, orientations=8, pixels_per_cell=(16, 16),
