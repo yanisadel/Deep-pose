@@ -1,7 +1,7 @@
 from utils_avec_origin import *
 from sklearn.neighbors import KNeighborsClassifier
 
-def initialize_knn(x_train, y_train, n_neighbors=3):
+def initialize_knn(x_train, y_train, n_neighbors=5):
     knn = KNeighborsClassifier(n_neighbors=n_neighbors)
     return knn
 

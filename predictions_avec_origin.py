@@ -71,11 +71,11 @@ def echecs (y_test, predictions):
     ges = df['geste'].array.to_numpy()
     pre = df['prediction'].array.to_numpy()
     n = len(df)
-    i = 0
+    p = 0
     for i in range(n):
         if ges[i] != pre[i]:
-            i=+1
-    echec = i*100/n
+            p=+1
+    echec = p*100/n
     return echec
 
 # Execution 
