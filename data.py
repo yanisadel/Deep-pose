@@ -145,8 +145,8 @@ def fill_csv_signes(min_detection_confidence=0.7, show_error=True):
             print("Le pourcentage d'échecs par catégorie est : ", echecs)
 
 
-def fill_csv_niveaux(min_detection_confidence=0.7, show_error=True):
-    """
+'''def fill_csv_niveaux(min_detection_confidence=0.7, show_error=True):
+
     fill_csv_signes crée et remplit le fichier excel Data/niveaux.csv, qui contient les coordonnées des mains de toutes les images du dataset, avec les labels correspondant
     aux niveaux de main
 
@@ -158,7 +158,7 @@ def fill_csv_niveaux(min_detection_confidence=0.7, show_error=True):
     show_error: bool
         True si on veut que la fonction affiche sur quelles photos elle n'arrive pas à détecter la main
         False sinon
-    """
+ 
 
     with open('Data/niveaux.csv', 'w', newline='') as csvfile:
         writer = csv.writer(csvfile, quotechar='/', quoting=csv.QUOTE_MINIMAL)
@@ -189,11 +189,11 @@ def fill_csv_niveaux(min_detection_confidence=0.7, show_error=True):
             echecs.append((i,pourcentage))
 
         if show_error:
-            print("Le pourcentage d'échecs par catégorie est : ", echecs)
+            print("Le pourcentage d'échecs par catégorie est : ", echecs)'''
 
 if __name__ == '__main__':
         
     # Il faut ces lignes là pour remplir les fichiers excel (qui constituent le dataset)
     min_detection_confidence = 0.5
     fill_csv_signes(min_detection_confidence=min_detection_confidence)
-    fill_csv_niveaux(min_detection_confidence=min_detection_confidence)
+    

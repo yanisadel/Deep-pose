@@ -39,6 +39,19 @@ def vector_to_rectangle_from_path(path, min_detection_confidence=0.7, display=Tr
 
     return vector_to_rectangle(image, min_detection_confidence, display)
 
+def labels_csv_position():
+    """
+    labels_csv() renvoie la 1ère ligne des tableaux excel (dans l'ordre : label, ux0sommet0,uy0sommet0,ux0sommet1,...)
+    Elle renvoie une liste
+    """
+
+    l = ["label"]
+    for i in range(0,21,4):
+        for j in range(0,4):
+            l.append("ux" + str(i) + "sommet" + str(j))
+            l.append("uy" + str(i) + "sommet" + str(j))
+    return l[:-1]
+
 def fill_csv_niveaux(min_detection_confidence=0.7, show_error=True):
     """
     fill_csv_signes crée et remplit le fichier excel Data/niveaux.csv, qui contient les vecteur des doigts aux sommets du rectangle de la tête, avec les labels correspondant
@@ -57,7 +70,7 @@ def fill_csv_niveaux(min_detection_confidence=0.7, show_error=True):
     with open('Data/niveaux.csv', 'w', newline='') as csvfile:
         writer = csv.writer(csvfile, quotechar='/', quoting=csv.QUOTE_MINIMAL)
         # On met les labels
-        labels = labels_csv()
+        labels = labels_csv_position()
         writer.writerow(labels)
 
         # On complète les données
