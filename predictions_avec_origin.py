@@ -74,7 +74,7 @@ def echecs (y_test, predictions):
     p = 0
     for i in range(n):
         if ges[i] != pre[i]:
-            p=+1
+            p+=1
     echec = p*100/n
     return echec
 
