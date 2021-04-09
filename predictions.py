@@ -27,8 +27,6 @@ train_knn(knn,x_train,y_train)
 predictions = predictions_knn(knn, x_test)
 
 
-
-
 """PREDICTION DU NIVEAU DE MAIN"""
 # Chargement des données
 path_niveaux = 'Data/niveaux.csv'
@@ -42,3 +40,4 @@ tree = initialize_decision_tree_classifier()
 train_decision_tree_classifier(tree, x_train2, y_train2)
 predictions2 = predictions_decision_tree_classifier(tree, x_test2)
 
+print (predictions)

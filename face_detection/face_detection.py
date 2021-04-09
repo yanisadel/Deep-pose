@@ -45,16 +45,16 @@ def detect_face(image):
     res=[]
     gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
     faces = face_cascade.detectMultiScale(gray, 1.3, 5)
-    #print("0 --> ", faces)
+    print("0 --> ", faces)
     for (x,y,w,h) in faces:
         cv2.rectangle(image,(x,y),(x+w,y+h),(255,0,0),2)
         roi_gray = gray[y:y+h, x:x+w]
         roi_color = image[y:y+h, x:x+w]
         eyes = eye_cascade.detectMultiScale(roi_gray)
-        #print("1 --> ", cv2.rectangle(image,(x,y),(x+w,y+h),(255,0,0),2))
-        #print("2 --> ", roi_gray)
-        #print("3 --> ", roi_color)
-        #print("4 --> ", eyes)
+        print("1 --> ", cv2.rectangle(image,(x,y),(x+w,y+h),(255,0,0),2))
+        print("2 --> ", roi_gray)
+        print("3 --> ", roi_color)
+        print("4 --> ", eyes)
 
         for (ex,ey,ew,eh) in eyes:
             cv2.rectangle(roi_color,(ex,ey),(ex+ew,ey+eh),(0,255,0),2)
@@ -102,11 +102,11 @@ if __name__ == "__main__":
     #cv2.destroyAllWindows()
     # # hist = HOG(img)
 
-    #N = BGR_to_gray(img)
-    #image = HOG_Gray(N)
-    #detect_face(img)
+    N = BGR_to_gray(img)
+    image = HOG_Gray(N)
+    detect_face(img)
 
-    """fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(8, 4), sharex=True, sharey=True)
+    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(8, 4), sharex=True, sharey=True)
 
     ax1.axis('off')
     ax1.imshow(N)
@@ -115,5 +115,5 @@ if __name__ == "__main__":
     ax2.imshow(image, cmap=plt.cm.gray)
     ax2.set_title('Histogram of Oriented Gradients')
     plt.show()
-    plt.close()"""
+    plt.close()
 

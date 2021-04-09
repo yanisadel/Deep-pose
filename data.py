@@ -2,6 +2,7 @@ import mediapipe as mp
 import cv2
 import csv
 from formatage import *
+from face import *
 from cv2 import imread, resize
 from os import listdir
 
@@ -191,8 +192,37 @@ def fill_csv_niveaux(min_detection_confidence=0.7, show_error=True):
         if show_error:
             print("Le pourcentage d'échecs par catégorie est : ", echecs)
 
+def face_csv(show_error=True):
+    l = ["label"]
+    for i in range(4):
+        l.append("pos" + str(i) +"x")
+        l.append("pos" + str(i) +"y")
+        l.append("pos" + str(i) +"z")
+    with open('Data/face.csv', 'w', newline='') as csvfile:
+        writer = csv.writer(csvfile, quotechar='/', quoting=csv.QUOTE_MINIMAL)
+        # On met les labels
+        labels = l
+        writer.writerow(labels)
+        s = "Data/Signes/"
+        
+        for i in range(1,6):
+            p = s+ str(i) + "/"
+            for path in listdir(p):
+                face = face_img(p+ path)
+                if (face != None):
+                    M=[]
+                    for mark in face :
+                        M.append(face[mark].x)
+                        M.append(face[mark].y)
+                        M.append(0)
+                    M= [i]+ M
+                    writer.writerow(M)
+
+
+
 
 # Il faut ces lignes là pour remplir les fichiers excel (qui constituent le dataset)
 min_detection_confidence = 0.5
-fill_csv_signes(min_detection_confidence=min_detection_confidence)
-fill_csv_niveaux(min_detection_confidence=min_detection_confidence)
+#fill_csv_signes(min_detection_confidence=min_detection_confidence)
+#fill_csv_niveaux(min_detection_confidence=min_detection_confidence)
+face_csv()
