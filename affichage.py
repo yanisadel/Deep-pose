@@ -50,10 +50,7 @@ def affichage_folder(s):
 
 
 
-<<<<<<< HEAD
-=======
 if __name__ == '__main__':
     #affichage_video_from_path("output.avi")
     affichage_folder('Data/Signes/1')
     
->>>>>>> eff5d249ad3c174aa0d653b42484d04145964dd0

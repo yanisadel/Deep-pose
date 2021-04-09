@@ -26,7 +26,7 @@ train_knn(knn,x_train,y_train)
 
 predictions = predictions_knn(knn, x_test)
 
-def retourne_knn_entraine(path='Data/signes.csv'):
+def retourne_knn_signes_entraine(path='Data/signes.csv'):
     x, y = read_csv(path)
 
     # Séparation des données
