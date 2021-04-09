@@ -4,6 +4,7 @@ import csv
 from formatage import *
 from cv2 import imread, resize
 from os import listdir
+import detection_position
 
 def image_process(image, min_detection_confidence=0.7):
     # On charge le modèle
@@ -144,10 +145,22 @@ def fill_csv_signes(min_detection_confidence=0.7, show_error=True):
         if show_error:
             print("Le pourcentage d'échecs par catégorie est : ", echecs)
 
+def labels_csv_position():
+    """
+    labels_csv() renvoie la 1ère ligne des tableaux excel (dans l'ordre : label, ux0sommet0,uy0sommet0,ux0sommet1,...)
+    Elle renvoie une liste
+    """
 
-'''def fill_csv_niveaux(min_detection_confidence=0.7, show_error=True):
+    l = ["label"]
+    for i in range(0,21):
+        for j in range(0,4):
+            l.append("ux" + str(i) + "sommet" + str(j))
+            l.append("uy" + str(i) + "sommet" + str(j))
+    return l[:-1]
 
-    fill_csv_signes crée et remplit le fichier excel Data/niveaux.csv, qui contient les coordonnées des mains de toutes les images du dataset, avec les labels correspondant
+def fill_csv_niveaux(min_detection_confidence=0.7, show_error=True):
+    """
+    fill_csv_signes crée et remplit le fichier excel Data/niveaux.csv, qui contient les vecteur des doigts aux sommets du rectangle de la tête, avec les labels correspondant
     aux niveaux de main
 
     Arguments
@@ -158,12 +171,12 @@ def fill_csv_signes(min_detection_confidence=0.7, show_error=True):
     show_error: bool
         True si on veut que la fonction affiche sur quelles photos elle n'arrive pas à détecter la main
         False sinon
- 
+    """
 
     with open('Data/niveaux.csv', 'w', newline='') as csvfile:
         writer = csv.writer(csvfile, quotechar='/', quoting=csv.QUOTE_MINIMAL)
         # On met les labels
-        labels = labels_csv()
+        labels = labels_csv_position()
         writer.writerow(labels)
 
         # On complète les données
@@ -174,7 +187,7 @@ def fill_csv_signes(min_detection_confidence=0.7, show_error=True):
             compteur_echecs = 0
             compteur_total = 0
             for path in listdir(s):
-                l = points_image_from_path(s + path, min_detection_confidence=min_detection_confidence)
+                l = detection_position.vector_to_rectangle_from_path(s + path, min_detection_confidence=min_detection_confidence)
                 if (l != None):
                     l = [i] + l
                     writer.writerow(l)
@@ -189,11 +202,15 @@ def fill_csv_signes(min_detection_confidence=0.7, show_error=True):
             echecs.append((i,pourcentage))
 
         if show_error:
-            print("Le pourcentage d'échecs par catégorie est : ", echecs)'''
+            print("Le pourcentage d'échecs par catégorie est : ", echecs)
+
+#fill_csv_signes()
+#fill_csv_niveaux()
 
 if __name__ == '__main__':
         
     # Il faut ces lignes là pour remplir les fichiers excel (qui constituent le dataset)
-    min_detection_confidence = 0.5
-    fill_csv_signes(min_detection_confidence=min_detection_confidence)
+   
+    #fill_csv_signes()
+    fill_csv_niveaux()
     
