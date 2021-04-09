@@ -16,3 +16,6 @@ def prediction_signe_image_from_path(knn, path):
 
 knn_signes = retourne_knn_signes_entraine() # retourne le knn pour les signes entrainé
 predictions = prediction_signe_image_from_path(knn, 'Data/Signes/1/IMG_20210408_190721.jpg')
+
+
+

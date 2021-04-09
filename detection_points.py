@@ -260,4 +260,4 @@ cv2.destroyAllWindows()
 
 if __name__ == '__main__':
     #points_video_from_path("dataset/gesture/video2.mp4")
-    detection_main("dataset/video_maison/WIN_20210323_15_19_36_Pro_coupe.mp4")
+    "detection_main("dataset/video_maison/WIN_20210323_15_19_36_Pro_coupe.mp4")

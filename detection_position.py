@@ -5,7 +5,7 @@ import csv
 from formatage import *
 from cv2 import imread, resize
 from os import listdir
-from data import *
+import data
 min_detection_confidence=0.7
 display=True
 
@@ -14,15 +14,15 @@ def normalize_vector(u):
 
 
 def vector_to_rectangle(img, min_detection_confidence=0.7, display=True):
-    points=points_image(img, min_detection_confidence=0.7, display=True)
+    points=data.points_image(img, min_detection_confidence=0.7, display=True)
     res=[]
     if type(points)!=type(None) and type(detection_tete.face_detection.coordinate_face(img))!=type(None):
         u1,u2,u3,u4=detection_tete.face_detection.coordinate_face(img)
         l=[u1,u2,u3,u4]
-        for i in range (0,21,4):
+        for i in range (0,21):
             xr,yr=points[i:i+2]          
             for j in range(4):
-                res+=list((normalize_vector((xr-l[j][0],yr-l[j][1]))))
+                res+=list((xr-l[j][0],yr-l[j][1]))
         return(res)
     else:
         if points==None:
@@ -39,69 +39,10 @@ def vector_to_rectangle_from_path(path, min_detection_confidence=0.7, display=Tr
 
     return vector_to_rectangle(image, min_detection_confidence, display)
 
-def labels_csv_position():
-    """
-    labels_csv() renvoie la 1ère ligne des tableaux excel (dans l'ordre : label, ux0sommet0,uy0sommet0,ux0sommet1,...)
-    Elle renvoie une liste
-    """
-
-    l = ["label"]
-    for i in range(0,21,4):
-        for j in range(0,4):
-            l.append("ux" + str(i) + "sommet" + str(j))
-            l.append("uy" + str(i) + "sommet" + str(j))
-    return l[:-1]
-
-def fill_csv_niveaux(min_detection_confidence=0.7, show_error=True):
-    """
-    fill_csv_signes crée et remplit le fichier excel Data/niveaux.csv, qui contient les vecteur des doigts aux sommets du rectangle de la tête, avec les labels correspondant
-    aux niveaux de main
-
-    Arguments
-    ---------
-    min_detection_confidence: int
-        degré de confiance qu'on veut (compris entre 0 et 1)
-    
-    show_error: bool
-        True si on veut que la fonction affiche sur quelles photos elle n'arrive pas à détecter la main
-        False sinon
-    """
-
-    with open('Data/niveaux.csv', 'w', newline='') as csvfile:
-        writer = csv.writer(csvfile, quotechar='/', quoting=csv.QUOTE_MINIMAL)
-        # On met les labels
-        labels = labels_csv_position()
-        writer.writerow(labels)
-
-        # On complète les données
-        s = "Data/Niveaux/"
-        echecs = [] # Contient juste le nombre d'échecs de reconnaissance des points
-        for i in range(1,6):
-            s += str(i) + "/"
-            compteur_echecs = 0
-            compteur_total = 0
-            for path in listdir(s):
-                l = vector_to_rectangle_from_path(s + path, min_detection_confidence=min_detection_confidence)
-                if (l != None):
-                    l = [i] + l
-                    writer.writerow(l)
-                else:
-                    compteur_echecs += 1
-                    print("Mediapipe n'a pas réussi à détecter les points sur : " + str(i) + "/" + path)
-                compteur_total += 1
-
-            s = "Data/Niveaux/"
-            pourcentage = compteur_echecs/compteur_total*100
-            pourcentage = str(pourcentage) + '%'
-            echecs.append((i,pourcentage))
-
-        if show_error:
-            print("Le pourcentage d'échecs par catégorie est : ", echecs)
 
 if __name__ == '__main__':
+    pass
     #print(normalize_vector((1,2)))
-    fill_csv_niveaux()
-
 
 
 
