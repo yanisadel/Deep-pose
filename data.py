@@ -95,7 +95,7 @@ def labels_csv():
         l.append("pos" + str(i) +"y")
         l.append("pos" + str(i) +"z")
 
-    return l[:-1]
+    return l
 
 
 
