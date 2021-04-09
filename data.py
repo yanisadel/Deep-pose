@@ -5,7 +5,7 @@ from formatage import *
 from cv2 import imread, resize
 from os import listdir
 import detection_position
-
+import face
 def image_process(image, min_detection_confidence=0.7):
     # On charge le modèle
     mp_hands = mp.solutions.hands
@@ -147,7 +147,7 @@ def fill_csv_signes(min_detection_confidence=0.7, show_error=True):
 
 def labels_csv_position():
     """
-    labels_csv() renvoie la 1ère ligne des tableaux excel (dans l'ordre : label, ux0sommet0,uy0sommet0,ux0sommet1,...)
+    labels_csv_position() renvoie la 1ère ligne des tableaux excel (dans l'ordre : label, ux0sommet0,uy0sommet0,ux0sommet1,...)
     Elle renvoie une liste
     """
 
@@ -204,6 +204,55 @@ def fill_csv_niveaux(min_detection_confidence=0.7, show_error=True):
         if show_error:
             print("Le pourcentage d'échecs par catégorie est : ", echecs)
 
+def labels_csv_face():
+    """
+    labels_csv() renvoie la 1ère ligne des tableaux excel (dans l'ordre : label, pos1x,pos1y,pos1z,...)
+    Elle renvoie une liste
+    """
+    l = ["label"]
+    for i in range(0,21):
+        for j in range(0,4):
+            l.append("ux" + str(i) + "sommet" + str(j))
+            l.append("uy" + str(i) + "sommet" + str(j))
+    return l[:-1]
+
+def fill_face_csv():
+
+    """
+    fill_csv_signes crée et remplit le fichier excel Data/face.csv, qui contient les poinst de la tete, avec les labels correspondant
+    aux niveaux de main
+
+    """
+    l=labels_csv_face()
+    with open('Data/face.csv', 'w', newline='') as csvfile:
+        writer = csv.writer(csvfile, quotechar='/', quoting=csv.QUOTE_MINIMAL)
+        # On met les labels
+        labels = l
+        writer.writerow(labels)
+        s = "Data/Niveaux/"
+        echecs = [] # Contient juste le nombre d'échecs de reconnaissance des points
+        for i in range(1,6):
+            s += str(i) + "/"
+            compteur_echecs = 0
+            compteur_total = 0
+            for path in listdir(s):
+                l =  detection_position.vector_to_face_from_path(s+ path)
+                if (l != None):
+                    l = [i] + l
+                    writer.writerow(l)
+                else:
+                    compteur_echecs += 1
+                    print("Mediapipe n'a pas réussi à détecter les points sur : " + str(i) + "/" + path)
+                compteur_total += 1
+
+            s = "Data/Niveaux/"
+            pourcentage = compteur_echecs/compteur_total*100
+            pourcentage = str(pourcentage) + '%'
+            echecs.append((i,pourcentage))
+
+        if show_error:
+            print("Le pourcentage d'échecs par catégorie est : ", echecs)
+
 #fill_csv_signes()
 #fill_csv_niveaux()
 
@@ -212,4 +261,5 @@ if __name__ == '__main__':
     # Il faut ces lignes là pour remplir les fichiers excel (qui constituent le dataset)
    
     #fill_csv_signes()
-    fill_csv_niveaux()
+    #fill_csv_niveaux()
+    fill_face_csv()

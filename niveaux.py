@@ -13,7 +13,7 @@ def predictions_decision_tree_classifier(tree, x_test):
     return predictions'''
 
 
-def initialize_knn_niveau(x_train, y_train, n_neighbors=3):
+def initialize_knn_niveau(x_train, y_train, n_neighbors=4):
     knn = KNeighborsClassifier(n_neighbors=n_neighbors)
     return knn
 
