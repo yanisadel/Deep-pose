@@ -52,11 +52,11 @@ def face_img(path , min_detection_confidence=0.5):
           l['reye']=mp.solutions.face_detection.get_key_point(detection, mp.solutions.face_detection.FaceKeyPoint.RIGHT_EYE)
           l['leye']=mp.solutions.face_detection.get_key_point(detection, mp.solutions.face_detection.FaceKeyPoint.LEFT_EYE)
           l['nose']=mp.solutions.face_detection.get_key_point(detection, mp.solutions.face_detection.FaceKeyPoint.NOSE_TIP)
-          print(l)
-        mp_drawing.draw_detection(annotated_image, detection)
-        cv2.imshow("image",annotated_image)
-        cv2.waitKey()
-        cv2.destroyAllWindows()
+          return(l)
+        #mp_drawing.draw_detection(annotated_image, detection)
+        #cv2.imshow("image",annotated_image)
+        #cv2.waitKey()
+        #cv2.destroyAllWindows()
     else : 
       return ( "error")
 
