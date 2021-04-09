@@ -171,11 +171,11 @@ def fill_csv_niveaux(min_detection_confidence=0.7, show_error=True):
         s = "Data/Niveaux/"
         echecs = [] # Contient juste le nombre d'échecs de reconnaissance des points
         for i in range(1,6):
-            s += str(i) + "/"
+            p = s+ str(i) + "/"
             compteur_echecs = 0
             compteur_total = 0
-            for path in listdir(s):
-                l = points_image_from_path(s + path, min_detection_confidence=min_detection_confidence)
+            for path in listdir(p):
+                l = points_image_from_path(p + path, min_detection_confidence=min_detection_confidence)
                 if (l != None):
                     l = [i] + l
                     writer.writerow(l)
@@ -192,7 +192,7 @@ def fill_csv_niveaux(min_detection_confidence=0.7, show_error=True):
         if show_error:
             print("Le pourcentage d'échecs par catégorie est : ", echecs)
 
-def face_csv(show_error=True):
+def face_csv():
     l = ["label"]
     for i in range(4):
         l.append("pos" + str(i) +"x")
@@ -223,14 +223,7 @@ def face_csv(show_error=True):
 
 # Il faut ces lignes là pour remplir les fichiers excel (qui constituent le dataset)
 min_detection_confidence = 0.5
-fill_csv_signes(min_detection_confidence=min_detection_confidence)
+#fill_csv_signes(min_detection_confidence=min_detection_confidence)
 fill_csv_niveaux(min_detection_confidence=min_detection_confidence)
-face_csv()
-print("Le pourcentage d'échecs par catégorie est : ", echecs)
-
-if __name__ == '__main__':
-        
-    # Il faut ces lignes là pour remplir les fichiers excel (qui constituent le dataset)
-    min_detection_confidence = 0.5
-    fill_csv_signes(min_detection_confidence=min_detection_confidence)
-    
+#face_csv()
+#print("Le pourcentage d'échecs par catégorie est : ", echecs)
