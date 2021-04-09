@@ -397,4 +397,3 @@ if __name__ == '__main__':
     min_detection_confidence = 0.5
     fill_csv_signes(min_detection_confidence=min_detection_confidence)
     
->>>>>>> eff5d249ad3c174aa0d653b42484d04145964dd0
