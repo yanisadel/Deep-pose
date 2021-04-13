@@ -1,6 +1,8 @@
 from predictions import *
 from data import *
 import cv2
+from detection_position import *
+
 
 def prediction_signe_image(knn, image, min_detection_confidence=0.5):
     """Prediction du signe depuis une image"""
@@ -12,10 +14,26 @@ def prediction_signe_image_from_path(knn, path):
     """Prediction du signe depuis le chemin d'une image"""
     image = cv2.imread(path)
     return prediction_signe_image(knn, image)
+    
+def prediction_position_image(knn, image, min_detection_confidence=0.5):
+    """Prediction du signe depuis une image"""
+    l = vector_to_face(image, min_detection_confidence=min_detection_confidence)
+    prediction = knn.predict([l])
+    return prediction
+
+def prediction_position_image_from_path(knn, path):
+    """Prediction du signe depuis le chemin d'une image"""
+    image = cv2.imread(path)
+    return prediction_position_image(knn, image)
 
 
-knn_signes = retourne_knn_signes_entraine() # retourne le knn pour les signes entrainé
-predictions = prediction_signe_image_from_path(knn, 'Data/Signes/1/IMG_20210408_190721.jpg')
+knn_signes = retourne_knn_entraine('Data/signes.csv') # retourne le knn pour les signes entrainé
+knn_position=retourne_knn_entraine('Data/face.csv')
+
+if __name__ == '__main__':
+    
+    print(prediction_signe_image_from_path(knn_signes, 'dataset/LPC/Capture2.PNG'))
+    print(prediction_position_image_from_path(knn_position, 'dataset/LPC/Capture2.PNG'))
 
 
 

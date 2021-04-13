@@ -11,16 +11,18 @@ from pandas import DataFrame
 
 
 
-def retourne_knn_signes_entraine(path='Data/signes.csv'):
+def retourne_knn_entraine(path='Data/signes.csv'):
+    n=rd.randint(1,40)
     x, y = read_csv(path)
 
     # Séparation des données
-    x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=test_size_knn, random_state=0)
+    x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=test_size_knn, random_state=n)
 
     # Entrainement du knn
     knn = initialize_knn(x_train, y_train)
     train_knn(knn,x_train,y_train)
     return knn
+
 
 """PARAMETRES"""
 test_size_knn = 0.1 # Proportion pour les données de train et de test
@@ -106,7 +108,7 @@ if __name__ == '__main__':
     print(predictions3)
     print(list(y_test3))
     print(pourcentage_réussite_3,erreur)"""
-    print(test_une_image('dataset/LPC/Capture.PNG'))
+    print(test_une_image('dataset/LPC/Capture3.PNG'))
     
 
 

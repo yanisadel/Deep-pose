@@ -39,12 +39,10 @@ def vector_to_rectangle_from_path(path, min_detection_confidence=0.7, display=Tr
 
     return vector_to_rectangle(image, min_detection_confidence, display)
 
-
-def vector_to_face_from_path(path, min_detection_confidence=0.7, display=True):
-    img=cv2.imread(path)
+def vector_to_face(img, min_detection_confidence=0.7, display=True):
     hand_points=data.points_image(img, min_detection_confidence=0.7, display=True)
     res=[]
-    head_points=face.face_img(path)
+    head_points=face.face_img(img)
     if type(hand_points)!=type(None) and type(head_points)!=type(None):
         u1,u2,u3,u4=[head_points['mouth'].x,head_points['mouth'].y],[head_points['reye'].x,head_points['reye'].y],[head_points['leye'].x,head_points['leye'].y],[head_points['nose'].x,head_points['nose'].y]
         l=[u1,u2,u3,u4]
@@ -61,8 +59,11 @@ def vector_to_face_from_path(path, min_detection_confidence=0.7, display=True):
             print('pas de tête détectée')
         return(None)
 
+def vector_to_face_from_path(path, min_detection_confidence=0.7, display=True):
+    img=cv2.imread(path)
+    return(vector_to_face(img))
 if __name__ == '__main__':
-    pass
+    print(vector_to_face_from_path('dataset/LPC/Capture3.PNG'))
     #print(normalize_vector((1,2)))
 
 

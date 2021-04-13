@@ -38,11 +38,9 @@ def face_cam(min_detection_confidence=0.7):
     
   cap.release()
   cv2.destroyAllWindows()
-
-def face_img(path , min_detection_confidence=0.7):
+def face_img(image , min_detection_confidence=0.7):
   l={}
   with  mp.solutions.face_detection.FaceDetection(min_detection_confidence=0.5) as face_detection:
-    image = cv2.imread(path) 
     if type(image)!=None:
       results = face_detection.process(cv2.cvtColor(image, cv2.COLOR_BGR2RGB))
       if results.detections!= None:
@@ -59,6 +57,10 @@ def face_img(path , min_detection_confidence=0.7):
         #cv2.destroyAllWindows()
     else : 
       return ( "error")
+
+def face_img_from_path(path , min_detection_confidence=0.7):
+  image=cv2.imread(path)
+  return(face_img(image))
 
 def face_vid(path ,min_detection_confidence=0.7):
   vidcap = cv2.VideoCapture(path)
@@ -93,3 +95,6 @@ def face_vid(path ,min_detection_confidence=0.7):
     
   cv2.destroyAllWindows()
 
+if __name__ == '__main__':
+    print(face_img_from_path('dataset/LPC/Capture2.PNG'))
+    
