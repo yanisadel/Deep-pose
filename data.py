@@ -152,7 +152,7 @@ def labels_csv_position():
     """
 
     l = ["label"]
-    for i in range(0,21):
+    for i in [0,5,9,13,17]:
         for j in range(0,4):
             l.append("ux" + str(i) + "sommet" + str(j))
             l.append("uy" + str(i) + "sommet" + str(j))
@@ -210,10 +210,10 @@ def labels_csv_face():
     Elle renvoie une liste
     """
     l = ["label"]
-    for i in range(0,21):
+    for i in [0,5,9,13,17]:
         for j in range(0,4):
-            l.append("ux" + str(i) + "sommet" + str(j))
-            l.append("uy" + str(i) + "sommet" + str(j))
+            l.append("ux" + str(i) + "point" + str(j))
+            l.append("uy" + str(i) + "point" + str(j))
     return l[:-1]
 
 def fill_face_csv():
@@ -250,8 +250,8 @@ def fill_face_csv():
             pourcentage = str(pourcentage) + '%'
             echecs.append((i,pourcentage))
 
-        if show_error:
-            print("Le pourcentage d'échecs par catégorie est : ", echecs)
+        #if show_error:
+        print("Le pourcentage d'échecs par catégorie est : ", echecs)
 
 #fill_csv_signes()
 #fill_csv_niveaux()
@@ -261,5 +261,5 @@ if __name__ == '__main__':
     # Il faut ces lignes là pour remplir les fichiers excel (qui constituent le dataset)
    
     #fill_csv_signes()
-    #fill_csv_niveaux()
-    fill_face_csv()
+    fill_csv_niveaux()
+    #fill_face_csv()
