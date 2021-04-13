@@ -96,7 +96,7 @@ def labels_csv():
         l.append("pos" + str(i) +"y")
         l.append("pos" + str(i) +"z")
 
-    return l[:-1]
+    return l
 
 
 
@@ -156,7 +156,7 @@ def labels_csv_position():
         for j in range(0,4):
             l.append("ux" + str(i) + "sommet" + str(j))
             l.append("uy" + str(i) + "sommet" + str(j))
-    return l[:-1]
+    return l
 
 def fill_csv_niveaux(min_detection_confidence=0.7, show_error=True):
     """
@@ -214,7 +214,7 @@ def labels_csv_face():
         for j in range(0,4):
             l.append("ux" + str(i) + "point" + str(j))
             l.append("uy" + str(i) + "point" + str(j))
-    return l[:-1]
+    return l
 
 def fill_face_csv():
 
@@ -256,10 +256,8 @@ def fill_face_csv():
 #fill_csv_signes()
 #fill_csv_niveaux()
 
-if __name__ == '__main__':
-        
+if __name__ == '__main__':  
     # Il faut ces lignes là pour remplir les fichiers excel (qui constituent le dataset)
-   
     #fill_csv_signes()
     fill_csv_niveaux()
     #fill_face_csv()
