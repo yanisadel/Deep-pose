@@ -7,7 +7,7 @@ from sklearn.model_selection import train_test_split
 import data
 import detection_position as dp
 from pandas import DataFrame
-
+from os import listdir
 
 
 
@@ -108,7 +108,9 @@ if __name__ == '__main__':
     print(predictions3)
     print(list(y_test3))
     print(pourcentage_réussite_3,erreur)"""
-    print(test_une_image('dataset/LPC/Capture3.PNG'))
+    s='dataset/LPC/'
+    for path in listdir(s):
+        print(test_une_image(s + path))
     
 
 

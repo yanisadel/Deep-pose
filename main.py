@@ -2,7 +2,7 @@ from predictions import *
 from data import *
 import cv2
 from detection_position import *
-
+from os import listdir
 
 def prediction_signe_image(knn, image, min_detection_confidence=0.5):
     """Prediction du signe depuis une image"""
@@ -31,9 +31,10 @@ knn_signes = retourne_knn_entraine('Data/signes.csv') # retourne le knn pour les
 knn_position=retourne_knn_entraine('Data/face.csv')
 
 if __name__ == '__main__':
-    
-    print(prediction_signe_image_from_path(knn_signes, 'dataset/LPC/Capture2.PNG'))
-    print(prediction_position_image_from_path(knn_position, 'dataset/LPC/Capture2.PNG'))
+    s='Data/Signes/1/'
+    for path in listdir(s):
+        print(prediction_signe_image_from_path(knn_signes, s + path))
+        #print(prediction_position_image_from_path(knn_position, s + path))
 
 
 
