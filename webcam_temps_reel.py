@@ -8,7 +8,7 @@ from signes import *
 import random as rd
 from sklearn.model_selection import train_test_split
 
-
+""" Executer le script """
 def retourne_knn_signes_entraine(path='Data/signes.csv'):
     x, y = read_csv(path)
 
