@@ -258,6 +258,6 @@ def fill_face_csv():
 
 if __name__ == '__main__':  
     # Il faut ces lignes là pour remplir les fichiers excel (qui constituent le dataset)
-    #fill_csv_signes()
+    fill_csv_signes()
     #fill_csv_niveaux()
-    fill_face_csv()
+    #fill_face_csv()
