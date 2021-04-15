@@ -19,6 +19,8 @@ def retourne_knn_signes_entraine(path='Data/signes.csv'):
     knn = initialize_knn(x_train, y_train)
     train_knn(knn,x_train,y_train)
     return knn
+
+
 def video_from_path(path):
         cap = cv2.VideoCapture(path)
         mpHands = mp.solutions.hands
@@ -76,4 +78,7 @@ def video_from_path(path):
         cap.release()
         cv2.destroyAllWindows()
 
-video_from_path('dataset/video_maison/WIN_20210415_10_14_22_Pro.mp4')        
+
+
+# Mettre le chemin du video et exécuter 
+video_from_path(path = 'dataset/video_maison/WIN_20210415_10_12_37_Pro.mp4')        
