@@ -96,5 +96,6 @@ def face_vid(path ,min_detection_confidence=0.7):
   cv2.destroyAllWindows()
 
 if __name__ == '__main__':
-    print(face_img_from_path('dataset/LPC/Capture2.PNG'))
+    #print(face_img_from_path('dataset/LPC/Capture2.PNG'))
+    print(face_cam())
     

@@ -101,13 +101,14 @@ def test_une_image(path):
 
 
 if __name__ == '__main__':
-    """ print(predictions)
+    """print(predictions)
     print(list(y_test))
     print(pourcentage_réussite,erreur)
 
     print(predictions3)
     print(list(y_test3))
     print(pourcentage_réussite_3,erreur)"""
+    
     s='dataset/LPC/'
     for path in listdir(s):
         print(test_une_image(s + path))
