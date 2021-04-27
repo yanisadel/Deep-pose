@@ -3,32 +3,17 @@ from utils import *
 import random as rd
 from sklearn.model_selection import train_test_split
 import data
-import detection_position as dp
 from pandas import DataFrame
 from os import listdir
 from sklearn.neighbors import KNeighborsClassifier
+n_neighbors=3
 
-
-
-def knn_entraine(path='data_train/signes.csv',test_size_knn = 0.1):
+def knn_entraine(path='data_train/signes.csv',type='signe',test_size_knn = 0.1):
     n=rd.randint(1,40)
     x, y = read_csv(path)
 
     # Séparation des données
     x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=test_size_knn, random_state=n)
-
-    # Entrainement du knn
-    knn = initialize_knn(x_train, y_train)
-    train_knn(knn,x_train,y_train)
-    return knn
-
-def knn_entraine(path='data_train/signes.csv',type,test_size_knn = 0.1):
-    n=rd.randint(1,40)
-    x, y = read_csv(path)
-
-    # Séparation des données
-    x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=test_size_knn, random_state=n)
-
     # Entrainement du knn
     knn = KNeighborsClassifier(n_neighbors=n_neighbors)
     if type=='signe':
@@ -63,14 +48,32 @@ def pourcentage_reussite(predi,y_test):
             res.append([predi[k],yt2[k]])
     return (c/n*100,res)
 
+def prediction_signe_image(knn, image, min_detection_confidence=0.5):
+    """Prediction du signe depuis une image"""
+    l = points_image(image, min_detection_confidence=min_detection_confidence)
+    l=normalize_list_points(l)
+    prediction = knn.predict([l])
+    return prediction
 
-""" UTILISATION DU CODE SUR UNE IMAGE AVEC DATASET DEJA FAIT """
-def test_une_image(path):
-    list_coord=dp.vector_to_face_from_path(path, min_detection_confidence=0.7, display=True)
-    if type(list_coord)!=type(None):
-        columns=data.labels_csv_face()[1:]
-        df_coord = DataFrame([list_coord],columns=columns)
-        return(predictions_knn_niveau(knn_3, df_coord))
+   
+def prediction_position_image(knn, image, min_detection_confidence=0.5):
+    """Prediction du signe depuis une image"""
+    l = vector_to_face(image, min_detection_confidence=min_detection_confidence)
+    prediction = knn.predict([l])
+    return prediction
+
+def prediction_signe_image_from_path(knn, path):
+    """Prediction du signe depuis le chemin d'une image"""
+    image = cv2.imread(path)
+    return prediction_signe_image(knn, image)
+def prediction_position_image_from_path(knn, path):
+    """Prediction du signe depuis le chemin d'une image"""
+    image = cv2.imread(path)
+    return prediction_position_image(knn, image)
+
+
+knn_signes = knn_entraine('data_train/signes.csv','signe') # retourne le knn pour les signes entrainé
+knn_position=knn_entraine('data_train/face.csv','position')
 
 
 if __name__ == '__main__':
@@ -81,9 +84,9 @@ if __name__ == '__main__':
     print(pourcentage_reussite_1,erreur_1)
     print(pourcentage_reussite_2,erreur_2)
     
-    #s='data_test/LPC/'
+    #s='dataset/LPC/'
     #for path in listdir(s):
-        #print(test_une_image(s + path))
+        #print(prediction_signe_image_from_path(knn_signes, s + path))
     
 
 

@@ -3,25 +3,13 @@ import mediapipe as mp
 import pandas as pd
 import numpy as np
 from utils import *
-from niveaux import *
-from signes import *
 import random as rd
 from sklearn.model_selection import train_test_split
 from detection_position import *
 from data import *
+from predictions import *
 
 
-""" Executer le script """
-def retourne_knn_entraine(path='Data/signes.csv'):
-    x, y = read_csv(path)
-
-    # Séparation des données
-    x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.05, random_state=0)
-
-    # Entrainement du knn
-    knn = initialize_knn(x_train, y_train)
-    train_knn(knn,x_train,y_train)
-    return knn
 def webcam_signe():
     """q pour sortir"""
     cap = cv2.VideoCapture(0)
@@ -44,7 +32,7 @@ def webcam_signe():
 
         res = {}
 
-        knn = retourne_knn_entraine(path='Data/signes.csv')
+        knn,_,_ = knn_entraine('data_train/signes.csv','signe')
 
         if results.multi_hand_landmarks:
             for handml in results.multi_hand_landmarks:
@@ -61,7 +49,8 @@ def webcam_signe():
             """for id, ln in enumerate(handml.landmark):
                     print (id, ln)"""
             df = pd.DataFrame(res)
-            predictions  = predictions_knn(knn, df)
+            df = normalize_data(df)
+            predictions  = knn.predict(df)
             #print (predictions)
             pr = str(predictions[0])
             cv2.putText(frameflip, 'Geste : '+ pr , (10,70), cv2.FONT_HERSHEY_PLAIN, 5, (255,0,2), 2)
@@ -98,7 +87,7 @@ def webcam_position():
 
         res = {}
 
-        knn = retourne_knn_entraine(path='Data/face.csv')
+        knn,_,_ = knn_entraine('data_train/face.csv','position')
 
         if results.multi_hand_landmarks:
             for handml in results.multi_hand_landmarks:
