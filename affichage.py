@@ -56,6 +56,5 @@ def make_video(images,outimg=None,fps=5,size=None,is_color=True,format='XVID'):
     #affichage_video(vid)
     vid.release()
 
-
 if __name__ == '__main__':
     #affichage_video_from_path("output.avi")
