@@ -23,6 +23,7 @@ def retourne_knn_entraine(path='Data/signes.csv'):
     train_knn(knn,x_train,y_train)
     return knn
 def webcam_signe():
+    """q pour sortir"""
     cap = cv2.VideoCapture(0)
     mpHands = mp.solutions.hands
     hands = mpHands.Hands(static_image_mode=False,
@@ -130,5 +131,7 @@ def webcam_position():
     cv2.destroyAllWindows()
 
 if __name__ == '__main__':
+    """q pour sortir"""
+    #print(webcam_signe())
     print(webcam_position())
     
