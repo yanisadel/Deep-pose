@@ -93,22 +93,14 @@ def webcam_position():
             for handml in results.multi_hand_landmarks:
                 mpDraw.draw_landmarks(frameflip, handml, mpHands.HAND_CONNECTIONS)
             l = results.multi_hand_landmarks[0]
-            list_coord=vector_to_face(frame, min_detection_confidence=0.7, display=True)
-            if type(list_coord)!=type(None):
-                columns=labels_csv_face()[1:]
-                df = pd.DataFrame([list_coord],columns=columns)
-                """position = l.landmark[20]
-                res['pos'+str(20)+'x'] = [position.x]
-                res['pos'+str(20)+'y'] = [position.y]"""
-                """for id, ln in enumerate(handml.landmark):
-                        print (id, ln)"""
-                predictions  = knn.predict(df)
-                #print (predictions)
-                pr = str(predictions[0])
+            prediction=prediction_position_image(knn,frame,0.7)
+            #print (predictions)
+            if type(prediction)!=type(None):
+                pr = str(prediction[0])
                 cv2.putText(frameflip, 'Position : '+ pr , (10,70), cv2.FONT_HERSHEY_PLAIN, 5, (255,0,2), 2)
-                #print (df)        
-                #print (results.multi_hand_landmarks)
-                #print (results.multi_handedness) 
+            #print (df)        
+            #print (results.multi_hand_landmarks)
+            #print (results.multi_handedness) 
 
         
         cv2.imshow('cam', frameflip)

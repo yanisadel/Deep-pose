@@ -6,6 +6,7 @@ import data
 from pandas import DataFrame
 from os import listdir
 from sklearn.neighbors import KNeighborsClassifier
+from detection_position import *
 n_neighbors=3
 
 def knn_entraine(path='data_train/signes.csv',type='signe',test_size_knn = 0.1):
@@ -51,16 +52,18 @@ def pourcentage_reussite(predi,y_test):
 def prediction_signe_image(knn, image, min_detection_confidence=0.5):
     """Prediction du signe depuis une image"""
     l = points_image(image, min_detection_confidence=min_detection_confidence)
-    l=normalize_list_points(l)
-    prediction = knn.predict([l])
-    return prediction
+    if type(l)!=type(None):
+        l=normalize_list_points(l)
+        prediction = knn.predict([l])
+        return prediction
 
    
 def prediction_position_image(knn, image, min_detection_confidence=0.5):
     """Prediction du signe depuis une image"""
     l = vector_to_face(image, min_detection_confidence=min_detection_confidence)
-    prediction = knn.predict([l])
-    return prediction
+    if type(l)!=type(None):
+        prediction = knn.predict([l])
+        return prediction
 
 def prediction_signe_image_from_path(knn, path):
     """Prediction du signe depuis le chemin d'une image"""
