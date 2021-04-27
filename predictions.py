@@ -57,7 +57,11 @@ def prediction_signe_image(knn, image, min_detection_confidence=0.5):
         prediction = knn.predict([l])
         return prediction
 
-   
+def prediction_signe_image_from_path(knn, path):
+    """Prediction du signe depuis le chemin d'une image"""
+    image = cv2.imread(path)
+    return prediction_signe_image(knn, image)
+
 def prediction_position_image(knn, image, min_detection_confidence=0.5):
     """Prediction du signe depuis une image"""
     l = vector_to_face(image, min_detection_confidence=min_detection_confidence)
@@ -65,27 +69,38 @@ def prediction_position_image(knn, image, min_detection_confidence=0.5):
         prediction = knn.predict([l])
         return prediction
 
-def prediction_signe_image_from_path(knn, path):
-    """Prediction du signe depuis le chemin d'une image"""
-    image = cv2.imread(path)
-    return prediction_signe_image(knn, image)
 def prediction_position_image_from_path(knn, path):
     """Prediction du signe depuis le chemin d'une image"""
     image = cv2.imread(path)
     return prediction_position_image(knn, image)
 
+def prediction_position_image_dlib(knn, image, min_detection_confidence=0.5):
+    """Prediction du signe depuis une image"""
+    l = vector_to_face_dlib(image, min_detection_confidence=min_detection_confidence)
+    if type(l)!=type(None):
+        prediction = knn.predict([l])
+        return prediction
+
+def prediction_position_image_dlib_from_path(knn, path):
+    """Prediction du signe depuis le chemin d'une image"""
+    image = cv2.imread(path)
+    return prediction_position_image_dlib(knn, image)
 
 knn_signes = knn_entraine('data_train/signes.csv','signe') # retourne le knn pour les signes entrainé
 knn_position=knn_entraine('data_train/face.csv','position')
+knn_position=knn_entraine('data_train/dlib.csv','position')
 
 
 if __name__ == '__main__':
     predictions_1,y_test_1=predictions('data_train/signes.csv')
     predictions_2,y_test_2=predictions('data_train/face.csv','position')
+    predictions_3,y_test_3=predictions('data_train/dlib.csv','position')
     pourcentage_reussite_1,erreur_1 = pourcentage_reussite(predictions_1,y_test_1)
     pourcentage_reussite_2,erreur_2 = pourcentage_reussite(predictions_2,y_test_2)
+    pourcentage_reussite_3,erreur_3 = pourcentage_reussite(predictions_3,y_test_3)
     print(pourcentage_reussite_1,erreur_1)
     print(pourcentage_reussite_2,erreur_2)
+    print(pourcentage_reussite_3,erreur_3)
     
     #s='dataset/LPC/'
     #for path in listdir(s):
