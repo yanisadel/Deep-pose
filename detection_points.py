@@ -2,7 +2,7 @@ import mediapipe as mp
 import cv2
 from formatage import *
 from affichage import *
-from cv2 import VideoWriter, VideoWriter_fourcc, imread, resize
+
 
 def image_process(image, min_detection_confidence=0.7):
     # On charge le modèle
@@ -96,7 +96,7 @@ def points_image(image, min_detection_confidence=0.7, display=True):
             for indice in range(21):
                 # Chaque indice représente une partie de la main (voir la documentation, par exemple 0 = poignet)
                 position = hand_landmarks.landmark[indice] # éventuellement multiplier par image_width pour les x, et height pour les y
-                res[l[i]][indice] = position
+                res[l[i]][indice] = 1-position
 
             mp_drawing = mp.solutions.drawing_utils
             mp_hands = mp.solutions.hands
@@ -202,26 +202,6 @@ def points_video_from_path(path='video_test.mp4', min_detection_confidence=0.7, 
     """
     video = cv2.VideoCapture(path)
     points_video(video, min_detection_confidence, display)
-
-def make_video(images,outimg=None,fps=5,size=None,is_color=True,format='XVID'):
-    fourcc=VideoWriter_fourcc(*format)
-    vid=None
-    for image in images:
-        img=image
-        if vid is None:
-            if size is None:
-                size=img.shape[1],img.shape[0]
-            vid=VideoWriter('output.avi',fourcc,float(fps),size, is_color)
-        if size[0]!=img.shape[1] and size[1]!=img.shape[0]:
-            img=resize(img,size)
-        vid.write(img)
-    print(type(vid))
-    #affichage_video(vid)
-    vid.release()
-
-
-
-
 
 def images_from_video(video, min_detection_confidence=0.7, display=True):
     """

@@ -113,7 +113,7 @@ def webcam_position():
                 res['pos'+str(20)+'y'] = [position.y]"""
                 """for id, ln in enumerate(handml.landmark):
                         print (id, ln)"""
-                predictions  = predictions_knn(knn, df)
+                predictions  = knn.predict(df)
                 #print (predictions)
                 pr = str(predictions[0])
                 cv2.putText(frameflip, 'Position : '+ pr , (10,70), cv2.FONT_HERSHEY_PLAIN, 5, (255,0,2), 2)
@@ -128,7 +128,6 @@ def webcam_position():
         
 
     cap.release()
-    cv2.destroyAllWindows()
 
 if __name__ == '__main__':
     """q pour sortir"""

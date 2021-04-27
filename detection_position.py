@@ -10,8 +10,7 @@ import numpy as np
 min_detection_confidence=0.7
 display=True
 import face
-"""def normalize_vector(u):
-    return((u[0]/(u[0]**2+u[1]**2)**0.5),(u[1]/(u[0]**2+u[1]**2)**0.5))"""
+
 
 
 def vector_to_rectangle(img, min_detection_confidence=0.7, display=True):
@@ -44,6 +43,7 @@ def norme(u,v):
     u,v=np.asarray(u),np.asarray(v)
     norm = np.linalg.norm(u-v)
     return norm
+    
 def vector_to_face(img, min_detection_confidence=0.7, display=True):
     hand_points=data.points_image(img, min_detection_confidence=0.7, display=True)
     res=[]
