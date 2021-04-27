@@ -33,7 +33,7 @@ def points_face(image,detector=detector,predictor=predictor):
 		# et dessine-les sur l'image
 		for (x, y) in shape:
 			cv2.circle(image, (x, y), 1, (0, 0, 255), -1)
-			points.append((x,y))
+			points.append((x/700,y/350))
 	# afficher l'image de sortie avec les détections de visage + repères de visage
 	#cv2.imshow("Output", image)
 	#cv2.waitKey(0)
@@ -45,5 +45,6 @@ def points_image_from_path(path,detector=detector,predictor=predictor):
 	return(points_face(image,detector,predictor))
 
 if __name__ == '__main__':
+
 	path='data_train/signes/1/WIN_20210407_15_34_27_Pro.jpg'
 	print(points_image_from_path(path,detector,predictor))

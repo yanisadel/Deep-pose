@@ -101,7 +101,7 @@ if __name__ == '__main__':
     print(pourcentage_reussite_1,erreur_1)
     print(pourcentage_reussite_2,erreur_2)
     print(pourcentage_reussite_3,erreur_3)
-    
+
     #s='dataset/LPC/'
     #for path in listdir(s):
         #print(prediction_signe_image_from_path(knn_signes, s + path))

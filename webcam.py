@@ -110,8 +110,53 @@ def webcam_position():
 
     cap.release()
 
+def webcam_position_dlib():
+    cap = cv2.VideoCapture(0)
+    mpHands = mp.solutions.hands
+    hands = mpHands.Hands(static_image_mode=False,
+            max_num_hands=1,
+            min_detection_confidence=0.5)
+
+    mpDraw = mp.solutions.drawing_utils
+    while True  :
+
+        success, frame = cap.read()
+        
+        frameflip = cv2.flip(frame.copy(), 1)
+        
+        imgRGB = cv2.cvtColor(frameflip, cv2.COLOR_BGR2RGB)
+
+        results = hands.process(imgRGB) 
+
+        res = {}
+
+        knn,_,_ = knn_entraine('data_train/dlib.csv','position')
+
+        if results.multi_hand_landmarks:
+            for handml in results.multi_hand_landmarks:
+                mpDraw.draw_landmarks(frameflip, handml, mpHands.HAND_CONNECTIONS)
+            l = results.multi_hand_landmarks[0]
+            prediction=prediction_position_image_dlib(knn,frame,0.7)
+            #print (predictions)
+            if type(prediction)!=type(None):
+                pr = str(prediction[0])
+                cv2.putText(frameflip, 'Position : '+ pr , (10,70), cv2.FONT_HERSHEY_PLAIN, 5, (255,0,2), 2)
+            #print (df)        
+            #print (results.multi_hand_landmarks)
+            #print (results.multi_handedness) 
+
+        
+        cv2.imshow('cam', frameflip)
+        if cv2.waitKey(1) & 0xFF == ord('q'):
+            break
+        
+
+    cap.release()
+
 if __name__ == '__main__':
     """q pour sortir"""
     #print(webcam_signe())
-    print(webcam_position())
+    #print(webcam_position())
+    print(webcam_position_dlib())
+
     

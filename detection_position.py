@@ -75,6 +75,7 @@ def vector_to_face_dlib(img, min_detection_confidence=0.7, display=True):
     head_points=points_face(img)
     if type(hand_points)!=type(None) and type(head_points)!=type(None):
         l=[]
+    
         norm=norme(head_points[43],head_points[40])
         for i in [2,4,9,14,16,28,34,37,40,43,46,49,55]:
             l.append(head_points[i])
@@ -89,11 +90,17 @@ def vector_to_face_dlib(img, min_detection_confidence=0.7, display=True):
         else:
             print('pas de tête détectée')
         return(None)
+#[2,4,9,14,16,28,34,37,40,43,46,49,55]
 def vector_to_face_dlib_from_path(path, min_detection_confidence=0.7, display=True):
     img=cv2.imread(path)
     return(vector_to_face_dlib(img))
+
 if __name__ == '__main__':
-    print(vector_to_face_dlib_from_path('data_train/niveaux/1/1-1.jpg'))
+    print(vector_to_face_dlib_from_path('WIN_20210427_22_01_26_Pro.jpg'))
+    print(vector_to_face_from_path('WIN_20210427_22_01_26_Pro.jpg'))
+    print(vector_to_face_dlib_from_path('WIN_20210427_22_01_38_Pro.jpg'))
+    print(vector_to_face_from_path('WIN_20210427_22_01_38_Pro.jpg'))
+    #print(vector_to_face_from_path('data_train/niveaux/1/1-1.jpg'))
     #print(normalize_vector((1,2)))
 
 
