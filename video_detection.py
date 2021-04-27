@@ -68,6 +68,9 @@ def video_from_path(path):
                 #print (df)        
                 #print (results.multi_hand_landmarks)
                 #print (results.multi_handedness) 
+                probability_class= knn.predict_proba(df)
+                return(probability_class)
+
 
             
             cv2.imshow('cam', frameflip)
