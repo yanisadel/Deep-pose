@@ -2,6 +2,7 @@ import cv2
 import detection_tete.face_detection
 from os import listdir
 import detection_points
+from cv2 import VideoWriter, VideoWriter_fourcc, imread, resize
 def affiche_image(image, name="image"):
     cv2.imshow(name, image)
     cv2.waitKey()
@@ -38,19 +39,22 @@ def affichage_video_from_path(path):
     video = cv2.VideoCapture(path)
     print(type(video))
     affichage_video(video)
-    
-def affichage_folder(s):
-    for path in listdir(s):
-        img=cv2.imread(s + "/" + path)
-        _,annoted_image=detection_points.points_image(img,0.7,False)
-        if type(annoted_image)!=type(None):
-            image=detection_tete.face_detection.detect_face(annoted_image)
-            if type(image)!=type(None):
-                affiche_image(image)
 
-
+def make_video(images,outimg=None,fps=5,size=None,is_color=True,format='XVID'):
+    fourcc=VideoWriter_fourcc(*format)
+    vid=None
+    for image in images:
+        img=image
+        if vid is None:
+            if size is None:
+                size=img.shape[1],img.shape[0]
+            vid=VideoWriter('output.avi',fourcc,float(fps),size, is_color)
+        if size[0]!=img.shape[1] and size[1]!=img.shape[0]:
+            img=cv2.resize(img,size)
+        vid.write(img)
+    print(type(vid))
+    #affichage_video(vid)
+    vid.release()
 
 if __name__ == '__main__':
     #affichage_video_from_path("output.avi")
-    affichage_folder('Data/Signes/1')
-    

@@ -1,81 +1,43 @@
 import pandas as pd
 from utils import *
-from niveaux import *
-from signes import *
 import random as rd
 from sklearn.model_selection import train_test_split
 import data
-import detection_position as dp
 from pandas import DataFrame
 from os import listdir
+from sklearn.neighbors import KNeighborsClassifier
+from detection_position import *
+n_neighbors=3
 
-
-
-def retourne_knn_entraine(path='Data/signes.csv'):
+def knn_entraine(path='data_train/signes.csv',type='signe',test_size_knn = 0.1):
     n=rd.randint(1,40)
     x, y = read_csv(path)
 
     # Séparation des données
     x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=test_size_knn, random_state=n)
-
     # Entrainement du knn
-    knn = initialize_knn(x_train, y_train)
-    train_knn(knn,x_train,y_train)
-    return knn
+    knn = KNeighborsClassifier(n_neighbors=n_neighbors)
+    if type=='signe':
+        x_train=normalize_data(x_train)
+    knn.fit(x_train, y_train)
+    return knn,x_test,y_test
 
 
-"""PARAMETRES"""
-test_size_knn = 0.1 # Proportion pour les données de train et de test
-test_size_tree = 0.1
+def predictions(path,type='signe',test_size_knn = 0.1):
+    """Prend en entrée le chemin d'accès à un excel scinde les données en une partie d'entrainement et une partie de test
+    Parametres:
+    path = chemin excel des données
+    type= string de la predictions que l'on veut signe ou position
+    """ 
+    # Entrainement du knn
+    knn,x_test,y_test=knn_entraine(path,type)
+    # prediction
+    if type=='signe':
+        x_test=normalize_data(x_test)
+    predictions=knn.predict(x_test)
+    return predictions,y_test
 
-
-"""PREDICTION DU SIGNE DE LA MAIN"""
-# Chargement des données
-path_signes = 'Data/signes.csv'
-x, y = read_csv(path_signes)
-
-# Séparation des données
-n=rd.randint(1,40)
-x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=test_size_knn, random_state=n)
-
-# Entrainement du knn
-knn_1 = initialize_knn(x_train, y_train)
-train_knn(knn_1,x_train,y_train)
-
-predictions = predictions_knn(knn_1, x_test)
-
-# Execution 
-        
-"""ENTRAINEMENT DU KNN POUR LA POSITION"""
-# Chargement des données
-path_niveaux = 'Data/niveaux.csv'
-x2, y2 = read_csv(path_niveaux)
-
-# Séparation des données
-
-x_train2, x_test2, y_train2, y_test2 = train_test_split(x2, y2, test_size=test_size_knn,random_state=n)
-#random_state 1 coupure aléatoire 0 toujours au même endroit
-# Entrainement du knn
-knn_2 = initialize_knn_niveau(x_train2, y_train2)
-train_knn_niveau(knn_2,x_train2,y_train2)
-
-predictions2 = predictions_knn_niveau(knn_2, x_test2)
-
-"""ENTRAINEMENT DU KNN POUR LA POSITION"""
-# Chargement des données
-path_face = 'Data/face.csv'
-x3, y3 = read_csv(path_face)
-
-# Séparation des données
-
-x_train3, x_test3, y_train3, y_test3 = train_test_split(x3, y3, test_size=test_size_knn,random_state=n)
-# Entrainement du knn
-knn_3 = initialize_knn_niveau(x_train3, y_train3)
-train_knn_niveau(knn_3,x_train3,y_train3)
-
-predictions3 = predictions_knn_niveau(knn_3, x_test3)
-
-def pourcentage_bon(predi,y_test):
+def pourcentage_reussite(predi,y_test):
     n = len(predi)
     c=0
     yt2 =list(y_test)
@@ -87,31 +49,62 @@ def pourcentage_bon(predi,y_test):
             res.append([predi[k],yt2[k]])
     return (c/n*100,res)
 
-pourcentage_réussite,erreur = pourcentage_bon(predictions,y_test)
-pourcentage_réussite_2,erreur2 = pourcentage_bon(predictions2,y_test2)
-pourcentage_réussite_3,erreur = pourcentage_bon(predictions3,y_test3)
+def prediction_signe_image(knn, image, min_detection_confidence=0.5):
+    """Prediction du signe depuis une image"""
+    l = points_image(image, min_detection_confidence=min_detection_confidence)
+    if type(l)!=type(None):
+        l=normalize_list_points(l)
+        prediction = knn.predict([l])
+        return prediction
 
-""" UTILISATION DU CODE SUR UNE IMAGE AVEC DATASET DEJA FAIT """
-def test_une_image(path):
-    list_coord=dp.vector_to_face_from_path(path, min_detection_confidence=0.7, display=True)
-    if type(list_coord)!=type(None):
-        columns=data.labels_csv_face()[1:]
-        df_coord = DataFrame([list_coord],columns=columns)
-        return(predictions_knn_niveau(knn_3, df_coord))
+def prediction_signe_image_from_path(knn, path):
+    """Prediction du signe depuis le chemin d'une image"""
+    image = cv2.imread(path)
+    return prediction_signe_image(knn, image)
+
+def prediction_position_image(knn, image, min_detection_confidence=0.5):
+    """Prediction du signe depuis une image"""
+    l = vector_to_face(image, min_detection_confidence=min_detection_confidence)
+    if type(l)!=type(None):
+        prediction = knn.predict([l])
+        return prediction
+
+def prediction_position_image_from_path(knn, path):
+    """Prediction du signe depuis le chemin d'une image"""
+    image = cv2.imread(path)
+    return prediction_position_image(knn, image)
+
+def prediction_position_image_dlib(knn, image, min_detection_confidence=0.5):
+    """Prediction du signe depuis une image"""
+    l = vector_to_face_dlib(image, min_detection_confidence=min_detection_confidence)
+    if type(l)!=type(None):
+        prediction = knn.predict([l])
+        return prediction
+
+def prediction_position_image_dlib_from_path(knn, path):
+    """Prediction du signe depuis le chemin d'une image"""
+    image = cv2.imread(path)
+    return prediction_position_image_dlib(knn, image)
+
+knn_signes = knn_entraine('data_train/signes.csv','signe') # retourne le knn pour les signes entrainé
+knn_position=knn_entraine('data_train/face.csv','position')
+knn_position=knn_entraine('data_train/dlib.csv','position')
 
 
 if __name__ == '__main__':
-    """print(predictions)
-    print(list(y_test))
-    print(pourcentage_réussite,erreur)
+    predictions_1,y_test_1=predictions('data_train/signes.csv')
+    predictions_2,y_test_2=predictions('data_train/face.csv','position')
+    predictions_3,y_test_3=predictions('data_train/dlib.csv','position')
+    pourcentage_reussite_1,erreur_1 = pourcentage_reussite(predictions_1,y_test_1)
+    pourcentage_reussite_2,erreur_2 = pourcentage_reussite(predictions_2,y_test_2)
+    pourcentage_reussite_3,erreur_3 = pourcentage_reussite(predictions_3,y_test_3)
+    print(pourcentage_reussite_1,erreur_1)
+    print(pourcentage_reussite_2,erreur_2)
+    print(pourcentage_reussite_3,erreur_3)
 
-    print(predictions3)
-    print(list(y_test3))
-    print(pourcentage_réussite_3,erreur)"""
-    
-    s='dataset/LPC/'
-    for path in listdir(s):
-        print(test_une_image(s + path))
+    #s='dataset/LPC/'
+    #for path in listdir(s):
+        #print(prediction_signe_image_from_path(knn_signes, s + path))
     
 
 
