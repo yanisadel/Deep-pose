@@ -201,7 +201,7 @@ def labels_csv_dlib():
     """
     l = ["label"]
     for i in [0,5,9,13,17]:
-        for j in [2,4,9,14,16,28,34,37,40,43,46,49,55]:
+        for j in [1,4,9,14,17,28,34,37,40,43,46,49,55]:
             l.append("ux" + str(i) + "point" + str(j))
             l.append("uy" + str(i) + "point" + str(j))
     return l
@@ -247,6 +247,6 @@ def fill_dlib_csv():
 
 if __name__ == '__main__':  
     # Il faut ces lignes là pour remplir les fichiers excel (qui constituent le dataset)
-    #fill_csv_signes()
+    fill_csv_signes()
     #fill_face_csv()
-    fill_dlib_csv()
+    #fill_dlib_csv()

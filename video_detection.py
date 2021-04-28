@@ -3,24 +3,72 @@ import mediapipe as mp
 import pandas as pd
 import numpy as np
 from utils import *
-from niveaux import *
-from signes import *
 import random as rd
 from sklearn.model_selection import train_test_split
+from predictions import *
+from formatage import *
+import matplotlib.pylab as plt
 
-""" Executer le script """
-def retourne_knn_signes_entraine(path='Data/signes.csv'):
-    x, y = read_csv(path)
-
-    # Séparation des données
-    x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.05, random_state=0)
-
-    # Entrainement du knn
-    knn = initialize_knn(x_train, y_train)
-    train_knn(knn,x_train,y_train)
-    return knn
-
-
+def graphique_video(video, min_detection_confidence=0.7, display=True):
+    """
+    Cette fonction récupère tous les points de la main sur une vidéo
+    Elle découpe la vidéo en frames, 
+    Pour chacune des frames elle fait la prediction et stocke les probabilités dans des listes pour chacun de signes de longueur 10
+    Arguments
+    ---------
+    video: video cv2
+        video qu'on analyse
+    
+    min_detection_confidence: float
+        le degré de confiance que l'on veut quant à la précision de l'analyse 
+    
+    display: bool
+        vaut True si la fonction doit afficher la vidéo
+        False sinon
+    """
+    c=0
+    i=0
+    X=[]
+    l=[0 for k in range(10)]
+    Y_temp=[l[:] for k in range(8)]
+    Y_moyenne=[[],[],[],[],[],[],[],[]]
+    for frame in generateur_decoupe_video(video):
+        if(prediction_image_proba(knn_signes,frame,'signe', min_detection_confidence)!=None):
+            c+=1
+            X.append(c)
+            prediction,probas=prediction_image_proba(knn_signes,frame,'signe', min_detection_confidence)
+            for j in range(8):
+                Y_temp[j][i]=probas[j]
+                Y_moyenne[j].append(sum(Y_temp[j])/10)
+            if i==9:
+                i=0
+            else:
+                i+=1
+    for j in range(8):
+        plt.plot(X,Y_moyenne[j],label='y=signe ' + str(j+1))
+    plt.legend()
+    plt.grid(True)
+    plt.show()
+def graphique_video_from_path(path, min_detection_confidence=0.7, display=True):
+    """
+    Cette fonction récupère tous les points de la main sur une vidéo
+    Elle découpe la vidéo en frames, 
+    Pour chacune des frames elle fait la prediction et stocke les probabilités dans des listes pour chacun de signes de longueur 10
+    Arguments
+    ---------
+    video: video cv2
+        video qu'on analyse
+    
+    min_detection_confidence: float
+        le degré de confiance que l'on veut quant à la précision de l'analyse 
+    
+    display: bool
+        vaut True si la fonction doit afficher la vidéo
+        False sinon
+    """
+    video = cv2.VideoCapture(path)
+    graphique_video(video, min_detection_confidence, display)
+"""
 def video_from_path(path):
         cap = cv2.VideoCapture(path)
         mpHands = mp.solutions.hands
@@ -44,7 +92,7 @@ def video_from_path(path):
 
             res = {}
 
-            knn = retourne_knn_signes_entraine(path='Data/signes.csv')
+            knn = knn_entraine(path='data_train/signes.csv','signe')
 
             if results.multi_hand_landmarks:
                 for handml in results.multi_hand_landmarks:
@@ -55,11 +103,11 @@ def video_from_path(path):
                     res['pos'+str(indice)+'x'] = [position.x]
                     res['pos'+str(indice)+'y'] = [position.y]
                     res['pos'+str(indice)+'z'] = [position.z]
-                """position = l.landmark[20]
-                res['pos'+str(20)+'x'] = [position.x]
-                res['pos'+str(20)+'y'] = [position.y]"""
-                """for id, ln in enumerate(handml.landmark):
-                        print (id, ln)"""
+                #position = l.landmark[20]
+                #res['pos'+str(20)+'x'] = [position.x]
+                #res['pos'+str(20)+'y'] = [position.y]
+                #for id, ln in enumerate(handml.landmark):
+                        #print (id, ln)
                 df = pd.DataFrame(res)
                 predictions  = predictions_knn(knn, df)
                 #print (predictions)
@@ -79,9 +127,8 @@ def video_from_path(path):
             
 
         cap.release()
-        cv2.destroyAllWindows()
+        cv2.destroyAllWindows()"""
 
 
-
-# Mettre le chemin du video et exécuter 
-video_from_path(path = 'dataset/video_maison/WIN_20210415_10_12_37_Pro.mp4')        
+if __name__ == '__main__':
+    print(graphique_video_from_path('data_test/video_maison/WIN_20210415_10_12_37_Pro_Trim.mp4'))      
