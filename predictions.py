@@ -10,7 +10,7 @@ from detection_position import *
 from data import *
 
 
-n_neighbors=5
+n_neighbors=3
 
 def knn_entraine(path='data_train/signes.csv',type_prediction='signe',test_size_knn = 0.1):
     n=rd.randint(1,40)

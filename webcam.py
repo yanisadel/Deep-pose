@@ -8,7 +8,7 @@ from sklearn.model_selection import train_test_split
 from detection_position import *
 from data import *
 from predictions import *
-
+from video_detection import *
 
 def webcam_signe():
     """q pour sortir"""
@@ -153,10 +153,51 @@ def webcam_position_dlib():
 
     cap.release()
 
+def webcam_graphique():
+    cap = cv2.VideoCapture(0)
+    mpDraw = mp.solutions.drawing_utils
+    c=0
+    i=0
+    X=[]
+    l=[0 for k in range(5)]
+    Y_temp=[l[:] for k in range(8)]
+    Y_moyenne=[[],[],[],[],[],[],[],[]]
+    knn,_,_ = knn_entraine('data_train/signes.csv','signe')
+    while True  :
+        #graphique_video_signe(cap)
+        success, frame = cap.read()
+
+        if(prediction_image_proba(knn,frame,'signe')!=None):
+            c+=1
+            X.append(c)
+            prediction,probas=prediction_image_proba(knn_signes,frame,'signe')
+            for j in range(8):
+                Y_temp[j][i]=probas[j]
+                Y_moyenne[j].append(sum(Y_temp[j])/5)
+            if i==4:
+                i=0
+            else:
+                i+=1
+
+        frameflip = cv2.flip(frame.copy(), 1)
+        
+
+        
+        cv2.imshow('cam', frameflip)
+        if cv2.waitKey(1) & 0xFF == ord('q'):
+            break
+    for j in range(8):
+        plt.plot(X,Y_moyenne[j],label='y=signe ' + str(j+1))
+    plt.legend()
+    plt.grid(True)
+    plt.show()
+
+    cap.release()
 if __name__ == '__main__':
     """q pour sortir"""
     #print(webcam_signe())
     #print(webcam_position())
-    print(webcam_position_dlib())
+    #print(webcam_position_dlib())
+    print(webcam_graphique())
 
     
