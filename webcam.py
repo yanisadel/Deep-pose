@@ -132,7 +132,7 @@ def webcam_position_dlib():
             for handml in results.multi_hand_landmarks:
                 mpDraw.draw_landmarks(frameflip, handml, mpHands.HAND_CONNECTIONS)
             l = results.multi_hand_landmarks[0]
-            prediction=prediction_position_image_dlib(knn,frame,0.7)
+            prediction=prediction_image(knn,frame,'position',0.7)
             #print (predictions)
             if type(prediction)!=type(None):
                 pr = str(prediction[0])
@@ -256,7 +256,7 @@ if __name__ == '__main__':
     """q pour sortir"""
     #print(webcam_signe())
     #print(webcam_position())
-    #print(webcam_position_dlib())
-    print(webcam_graphique_signe())
+    print(webcam_position_dlib())
+    #print(webcam_graphique_signe())
 
     

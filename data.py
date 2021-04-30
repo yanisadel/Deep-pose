@@ -20,7 +20,7 @@ def image_process(image, min_detection_confidence=0.7):
     return results.multi_handedness, results.multi_hand_landmarks
 
 
-    def points_image(image, min_detection_confidence=0.7, display=True):
+def points_image(image, min_detection_confidence=0.7, display=True):
     """
     points_image retourne une liste contenant les positions des différents points de la main (index, pouce...)
     L'image en argument n'est censée contenir que la MAIN DROITE (sinon il peut éventuellement y avoir des erreurs)

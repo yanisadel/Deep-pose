@@ -8,6 +8,7 @@ from sklearn.model_selection import train_test_split
 from predictions import *
 from formatage import *
 import matplotlib.pylab as plt
+import time
 
 def graphique_video_signe(video, min_detection_confidence=0.7, display=True):
     """
@@ -88,6 +89,7 @@ def graphique_video_signe_from_path(path, min_detection_confidence=0.7, display=
     graphique_video_signe(video, min_detection_confidence, display)
 
 
+
 def graphique_video_position(video, min_detection_confidence=0.7, display=True):
     """
     Cette fonction récupère tous les points de la main sur une vidéo
@@ -111,8 +113,8 @@ def graphique_video_position(video, min_detection_confidence=0.7, display=True):
     l=[0 for k in range(10)]
     Y_temp=[l[:] for k in range(5)]
     Y_moyenne=[[],[],[],[],[],[],[],[]]
+    knn=knn_entraine('data_train/dlib.csv','position')
     for frame in generateur_decoupe_video(video):
-        knn=knn_entraine('data_train/dlib.csv','position')
         if(prediction_image_proba(knn,frame,'position', min_detection_confidence)!=None):
             c+=1
             X.append(c)
@@ -129,6 +131,7 @@ def graphique_video_position(video, min_detection_confidence=0.7, display=True):
     plt.legend()
     plt.grid(True)
     plt.show()
+
 def graphique_video_position_from_path(path, min_detection_confidence=0.7, display=True):
     """
     Cette fonction récupère tous les points de la main sur une vidéo
