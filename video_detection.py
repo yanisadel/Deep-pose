@@ -60,7 +60,7 @@ def graphique_video_signe(video, min_detection_confidence=0.7, display=True):
     plt.show()
 
 def graphique_video_signe_from_path(path, min_detection_confidence=0.7, display=True):
-     """
+    """
     Cette fonction récupère tous les points de la main sur une vidéo
     Elle découpe la vidéo en frames, 
     Pour chacune des frames elle fait la prediction et stocke les probabilités dans des listes pour chacun de signes de longueur 10
@@ -72,14 +72,14 @@ def graphique_video_signe_from_path(path, min_detection_confidence=0.7, display=
     ---------
     path: str
         chemind de la video qu'on analyse
-    
+
     min_detection_confidence: float
         le degré de confiance que l'on veut quant à la précision de l'analyse 
-    
+
     display: bool
         vaut True si la fonction doit afficher la vidéo
         False sinon
-    
+
     returns
     -----------
     none affiche graphique

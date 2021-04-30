@@ -9,7 +9,6 @@ from sklearn.neighbors import KNeighborsClassifier
 from detection_position import *
 from data import *
 
-
 n_neighbors=5
 
 def knn_entraine(path='data_train/signes.csv',type_prediction='signe',n_neighbors=n_neighbors):
@@ -227,7 +226,7 @@ def prediction_image(knn, image,type_prediction, min_detection_confidence=0.7):
         prediction = knn.predict([l])
         return prediction
 
-def prediction_image_from_path(knn, path,type_prediction,min_detection_confidence=0,7):
+def prediction_image_from_path(knn, path,type_prediction,min_detection_confidence=0.7):
     """
     prediction_image renvoie la prediction de la classe de l'image en fontion du type de prediction que l'on veut
 

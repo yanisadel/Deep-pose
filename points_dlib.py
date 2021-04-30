@@ -13,25 +13,25 @@ detector = dlib.get_frontal_face_detector()
 predictor = dlib.shape_predictor("shape_predictor_68_face_landmarks.dat")
 
 def points_face(image,detector=detector,predictor=predictor):
-    """
-   points_face prend en entrée une image et affiche sur la tête les points détectés par dlib sur la tête si il en détecte
+	"""
+    points_face prend en entrée une image et affiche sur la tête les points détectés par dlib sur la tête si il en détecte
 
     Arguments
     ---------
    
     image: image cv2
-        image que l'on veut analyser
+    image que l'on veut analyser
 
     detector : truc sombre
 
 	predictor: truc sombre
 
-    Returns
+	Returns
     -------
-    None (affiche tête avec les points sur la tête)
-      
-    """
-	image = imutils.resize(image, width=600)
+	None (affiche tête avec les points sur la tête) 
+	
+	"""
+	image = imutils.resize(image,width=600)
 	height,width,_=image.shape
 	gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
 	# détecter les visages
@@ -58,8 +58,8 @@ def points_face(image,detector=detector,predictor=predictor):
 	return(points)
 
 def points_face_from_path(path,detector=detector,predictor=predictor):
-    """
-   points_face_from_path prend en entrée le chemin d'une image et affiche sur la tête les points détectés par dlib sur la tête si il en détecte
+	"""
+	points_face_from_path prend en entrée le chemin d'une image et affiche sur la tête les points détectés par dlib sur la tête si il en détecte
 
     Arguments
     ---------
@@ -75,7 +75,7 @@ def points_face_from_path(path,detector=detector,predictor=predictor):
     -------
     None (affiche tête avec les points sur la tête)
       
-    """
+	"""
 	# charger l'image d'entrée, redimensionner et convertir en niveaux de gris
 	image = cv2.imread(path)
 	return(points_face(image,detector,predictor))
