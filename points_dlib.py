@@ -13,7 +13,24 @@ detector = dlib.get_frontal_face_detector()
 predictor = dlib.shape_predictor("shape_predictor_68_face_landmarks.dat")
 
 def points_face(image,detector=detector,predictor=predictor):
+    """
+   points_face prend en entrée une image et affiche sur la tête les points détectés par dlib sur la tête si il en détecte
 
+    Arguments
+    ---------
+   
+    image: image cv2
+        image que l'on veut analyser
+
+    detector : truc sombre
+
+	predictor: truc sombre
+
+    Returns
+    -------
+    None (affiche tête avec les points sur la tête)
+      
+    """
 	image = imutils.resize(image, width=600)
 	height,width,_=image.shape
 	gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
@@ -40,7 +57,25 @@ def points_face(image,detector=detector,predictor=predictor):
 	#cv2.waitKey(0)
 	return(points)
 
-def points_image_from_path(path,detector=detector,predictor=predictor):
+def points_face_from_path(path,detector=detector,predictor=predictor):
+    """
+   points_face_from_path prend en entrée le chemin d'une image et affiche sur la tête les points détectés par dlib sur la tête si il en détecte
+
+    Arguments
+    ---------
+   
+    path: chemin
+        le chemin de l'image que l'on veut analyser
+
+    detector : truc sombre
+
+	predictor: truc sombre
+	
+    Returns
+    -------
+    None (affiche tête avec les points sur la tête)
+      
+    """
 	# charger l'image d'entrée, redimensionner et convertir en niveaux de gris
 	image = cv2.imread(path)
 	return(points_face(image,detector,predictor))
@@ -48,4 +83,4 @@ def points_image_from_path(path,detector=detector,predictor=predictor):
 if __name__ == '__main__':
 
 	path='data_train/signes/1/WIN_20210407_15_34_27_Pro.jpg'
-	print(points_image_from_path(path,detector,predictor))
+	print(points_face_from_path(path,detector,predictor))

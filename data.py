@@ -84,9 +84,9 @@ def points_image_from_path(path="main.jpg", min_detection_confidence=0.7, displa
     return points_image(image, min_detection_confidence, display)
 
 
-def labels_csv():
+def labels_csv_signes():
     """
-    labels_csv() renvoie la 1ère ligne des tableaux excel (dans l'ordre : label, pos0x, pos0y, pos0z, pos1x, pos1y...)
+    labels_csv_signes() renvoie la 1ère ligne des tableaux excel (dans l'ordre : label, pos0x, pos0y, pos0z, pos1x, pos1y...)
     Elle renvoie une liste
     """
 
@@ -117,7 +117,7 @@ def fill_csv_signes(min_detection_confidence=0.7, show_error=True):
     with open('data_train/signes.csv', 'w', newline='') as csvfile:
         writer = csv.writer(csvfile, quotechar='/', quoting=csv.QUOTE_MINIMAL)
         # On met les labels
-        labels = labels_csv()
+        labels = labels_csv_signes()
         writer.writerow(labels)
 
         # On complète les données
@@ -148,7 +148,7 @@ def fill_csv_signes(min_detection_confidence=0.7, show_error=True):
 
 def labels_csv_face():
     """
-    labels_csv() renvoie la 1ère ligne des tableaux excel (dans l'ordre : label, pos1x,pos1y,pos1z,...)
+    labels_csv() renvoie la 1ère ligne des tableaux excel (dans l'ordre : label, ux0point0,uy0point0...)
     Elle renvoie une liste
     """
     l = ["label"]
@@ -158,11 +158,10 @@ def labels_csv_face():
             l.append("uy" + str(i) + "point" + str(j))
     return l
 
-def fill_face_csv():
+def fill_csv_face():
 
     """
-    fill_csv_signes crée et remplit le fichier excel Data/face.csv, qui contient les poinst de la tete, avec les labels correspondant
-    aux niveaux de main
+    fill_csv_face crée et remplit le fichier excel data_train/face.csv, qui contient les vecteurs de la main à la tête
 
     """
     l=labels_csv_face()
@@ -171,7 +170,7 @@ def fill_face_csv():
         # On met les labels
         labels = l
         writer.writerow(labels)
-        s = "data_train/niveaux/"
+        s = "data_train/face/"
         echecs = [] # Contient juste le nombre d'échecs de reconnaissance des points
         for i in range(1,6):
             s += str(i) + "/"
@@ -187,7 +186,7 @@ def fill_face_csv():
                     print("Mediapipe n'a pas réussi à détecter les points sur : " + str(i) + "/" + path)
                 compteur_total += 1
 
-            s = "data_train/niveaux/"
+            s = "data_train/face/"
             pourcentage = compteur_echecs/compteur_total*100
             pourcentage = str(pourcentage) + '%'
             echecs.append((i,pourcentage))
@@ -196,7 +195,7 @@ def fill_face_csv():
         print("Le pourcentage d'échecs par catégorie est : ", echecs)
 def labels_csv_dlib():
     """
-    labels_csv() renvoie la 1ère ligne des tableaux excel (dans l'ordre : label, pos1x,pos1y,pos1z,...)
+    labels_csv_dlib() renvoie la 1ère ligne des tableaux excel (dans l'ordre : label, ux0point1,uy0point1...)
     Elle renvoie une liste
     """
     l = ["label"]
@@ -206,11 +205,10 @@ def labels_csv_dlib():
             l.append("uy" + str(i) + "point" + str(j))
     return l
 
-def fill_dlib_csv():
+def fill_csv_dlib():
 
     """
-    fill_csv_signes crée et remplit le fichier excel Data/face.csv, qui contient les poinst de la tete, avec les labels correspondant
-    aux niveaux de main
+    fill_csv_dlib crée et remplit le fichier excel data_train/dlib.csv, qui contient les vecteurs de la main à la tête avec les labels
 
     """
     l=labels_csv_dlib()
@@ -219,7 +217,7 @@ def fill_dlib_csv():
         # On met les labels
         labels = l
         writer.writerow(labels)
-        s = "data_train/niveaux/"
+        s = "data_train/dlib/"
         echecs = [] # Contient juste le nombre d'échecs de reconnaissance des points
         for i in range(1,6):
             s += str(i) + "/"
@@ -235,7 +233,7 @@ def fill_dlib_csv():
                     print("Mediapipe n'a pas réussi à détecter les points sur : " + str(i) + "/" + path)
                 compteur_total += 1
 
-            s = "data_train/niveaux/"
+            s = "data_train/dlib/"
             pourcentage = compteur_echecs/compteur_total*100
             pourcentage = str(pourcentage) + '%'
             echecs.append((i,pourcentage))
@@ -247,6 +245,6 @@ def fill_dlib_csv():
 
 if __name__ == '__main__':  
     # Il faut ces lignes là pour remplir les fichiers excel (qui constituent le dataset)
-    fill_csv_signes()
-    #fill_face_csv()
-    #fill_dlib_csv()
+    #fill_csv_signes()
+    #fill_csv_face()
+    fill_csv_dlib()
