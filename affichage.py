@@ -42,7 +42,7 @@ def affichage_video_from_path(path):
     affichage_video(video)
 # A verifier
 def make_video(images,outimg=None,fps=5,size=None,is_color=True,format='XVID'):
-            """
+    """
     make_video prend en entrée une liste d'image et en fait une vidéo
     Arguments
     ---------
