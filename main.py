@@ -9,6 +9,7 @@ from predictions import *
 from formatage import *
 import matplotlib.pylab as plt
 import time
+from display_vecteur import *
 
 
 def main(path,min_detection_confidence=0.8,display=True):
@@ -34,7 +35,7 @@ def main(path,min_detection_confidence=0.8,display=True):
 
     while True  :
         success, frame = cap.read()
-        frameflip = frame.copy()
+        frameflip = frame.copy() 
         imgRGB = cv2.cvtColor(frameflip, cv2.COLOR_BGR2RGB)
         results = hands.process(imgRGB) 
         res = {}
@@ -67,7 +68,9 @@ def main(path,min_detection_confidence=0.8,display=True):
             if i_position==n_position-1:
                 i_position=0
             else:
-                i_position+=1     
+                i_position+=1
+        if type(frameflip) !=type(None) :
+            frameflip = display_vector_from_image(frameflip) 
         cv2.imshow('cam', frameflip)
         if cv2.waitKey(1) & 0xFF == ord('q'):
             break

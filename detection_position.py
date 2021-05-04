@@ -167,6 +167,8 @@ def vector_to_face_dlib(img, min_detection_confidence=0.7, display=True):
         else:
             print('pas de tête détectée')
         return(None)
+
+
 #[1,4,9,14,17,28,34,37,40,43,46,49,55]/[0,5,9,13,17]
 def vector_to_face_dlib_from_path(path, min_detection_confidence=0.7, display=True):
     """
