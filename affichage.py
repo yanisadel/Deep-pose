@@ -4,6 +4,7 @@ from os import listdir
 import detection_points
 from cv2 import VideoWriter, VideoWriter_fourcc, imread, resize
 def affiche_image(image, name="image"):
+
     cv2.imshow(name, image)
     cv2.waitKey()
     cv2.destroyAllWindows()
@@ -39,8 +40,20 @@ def affichage_video_from_path(path):
     video = cv2.VideoCapture(path)
     print(type(video))
     affichage_video(video)
-
+# A verifier
 def make_video(images,outimg=None,fps=5,size=None,is_color=True,format='XVID'):
+            """
+    make_video prend en entrée une liste d'image et en fait une vidéo
+    Arguments
+    ---------
+    images: list
+        liste d'images
+    
+    Returns
+    -------
+    None (affiche vidéo)
+ 
+    """
     fourcc=VideoWriter_fourcc(*format)
     vid=None
     for image in images:
@@ -57,4 +70,5 @@ def make_video(images,outimg=None,fps=5,size=None,is_color=True,format='XVID'):
     vid.release()
 
 if __name__ == '__main__':
+    pass
     #affichage_video_from_path("output.avi")

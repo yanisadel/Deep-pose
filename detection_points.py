@@ -239,6 +239,7 @@ def detection_main(path, min_detection_confidence=0.7, display=True):
 cv2.destroyAllWindows()
 
 if __name__ == '__main__':
-    pass
+    print(points_image_from_path('data_test/LPC/WIN_20210415_08_45_49_Pro.jpg'))
+    
     #points_video_from_path("dataset/gesture/video2.mp4")
     #detection_main("dataset/video_maison/WIN_20210323_15_19_36_Pro_coupe.mp4")
