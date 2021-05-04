@@ -262,8 +262,8 @@ def vect_to_face_img(img):
     plt.show()
     for u in head_points : 
         print(u)
-        cv2.circle(img, (200,200), 1, (0,0,255), -1)
-    aff.affiche_image(img)"""
+        cv2.circle(img, (200,200), 1, (0,0,255), -1)"""
+    aff.affiche_image(img)
 
 if __name__ == '__main__':
     #print(vector_to_face_dlib_from_path('data_test/LPC/WIN_20210415_08_45_49_Pro.jpg'))
