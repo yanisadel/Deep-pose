@@ -2,7 +2,6 @@ import pandas as pd
 from utils import *
 import random as rd
 from sklearn.model_selection import train_test_split
-import data
 from pandas import DataFrame
 from os import listdir
 from sklearn.neighbors import KNeighborsClassifier
@@ -327,18 +326,24 @@ knn_position_dlib,_,_=knn_entraine_excel('data_train/dlib.csv','position')
 
 if __name__ == '__main__':
 
-    predictions_1,y_test_1=predictions_excel('data_train/signes.csv')
-    predictions_2,y_test_2=predictions_excel('data_train/face.csv','position')
-    predictions_3,y_test_3=predictions_excel('data_train/dlib.csv','position')
 
-    pourcentage_reussite_1,erreur_1 = pourcentage_reussite(predictions_1,y_test_1)
-    pourcentage_reussite_2,erreur_2 = pourcentage_reussite(predictions_2,y_test_2)
-    pourcentage_reussite_3,erreur_3 = pourcentage_reussite(predictions_3,y_test_3)
 
-    print(pourcentage_reussite_1,erreur_1)
-    print(pourcentage_reussite_2,erreur_2)
-    print(pourcentage_reussite_3,erreur_3)
-    print(prediction_image_proba_from_path(knn_signes, 'data_test/LPC/WIN_20210415_08_45_49_Pro.jpg','signe'))
+    a,b,c,n=0,0,0,100
+    for i in range(1,n+1):
+        predictions_1,y_test_1=predictions_excel('data_train/signes.csv')
+        predictions_2,y_test_2=predictions_excel('data_train/face.csv','position')
+        predictions_3,y_test_3=predictions_excel('data_train/dlib.csv','position')
+        pourcentage_reussite_1,erreur_1 = pourcentage_reussite(predictions_1,y_test_1)
+        pourcentage_reussite_2,erreur_2 = pourcentage_reussite(predictions_2,y_test_2)
+        pourcentage_reussite_3,erreur_3 = pourcentage_reussite(predictions_3,y_test_3)
+        a=c+pourcentage_reussite_1
+        b=c+pourcentage_reussite_2
+        c=c+pourcentage_reussite_3
+    print(a/n,b/n,c/n)
+    #print(pourcentage_reussite_1,erreur_1)
+    #print(pourcentage_reussite_2,erreur_2)
+    #print(pourcentage_reussite_3,erreur_3)
+    #print(prediction_image_proba_from_path(knn_signes, 'data_test/LPC/WIN_20210415_08_45_49_Pro.jpg','signe'))
     #print(predictions_proba('data_train/dlib.csv','position'))
     #s='data_test/LPC/'
     #for path in listdir(s):

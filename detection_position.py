@@ -154,12 +154,11 @@ def vector_to_face_dlib(img, min_detection_confidence=0.7, display=True):
     if type(hand_points)!=type(None) and type(head_points)!=type(None) and len(head_points)==68:
         l=[]
         norm=norme(head_points[43],head_points[40])
-        for i in [1,4,9,14,17,28,34,37,40,43,46,49,55]:
-            l.append(head_points[i])
         for i in [0,5,9,13,17]:
-            xr,yr=hand_points[i:i+2]       
-            for j in range(len(l)):
-                res+=list(((xr-l[j][0])/norm,(yr-l[j][1])/norm))
+            for j in [1,4,9,14,17,28,34,37,40,43,46,49,55]:
+                xm,ym =1-hand_points[3*i],hand_points[3*i+1]
+                xt,yt = head_points[j-1][0],head_points[j-1][1]
+                res+=list(((xm-xt)/norm,(ym-yt)/norm))               
         return(res)
     else:
         if hand_points==None:

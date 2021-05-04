@@ -8,7 +8,6 @@ from sklearn.model_selection import train_test_split
 from predictions import *
 from formatage import *
 import matplotlib.pylab as plt
-import time
 from display_vecteur import *
 
 
@@ -32,23 +31,20 @@ def main(path,min_detection_confidence=0.8,display=True):
     Y_moyenne_position=[[],[],[],[],[],[],[],[]]
     knn_signe= knn_entraine('data_train/signes.csv','signe')
     knn_position=knn_entraine('data_train/dlib.csv','position')
-
+    
     while True  :
         success, frame = cap.read()
-        frameflip = frame.copy() 
+        frameflip = frame.copy()
         imgRGB = cv2.cvtColor(frameflip, cv2.COLOR_BGR2RGB)
         results = hands.process(imgRGB) 
-        res = {}
         if results.multi_hand_landmarks:
             for handml in results.multi_hand_landmarks:
-                mpDraw.draw_landmarks(frameflip, handml, mpHands.HAND_CONNECTIONS)
-    
+                mpDraw.draw_landmarks(frameflip, handml, mpHands.HAND_CONNECTIONS)   
+
         if(prediction_image_proba(knn_signe,frame,'signe')!=None) and (prediction_image_proba(knn_position,frame,'position')!=None):
+            frameflip= display_vector_from_image(frame.copy()) 
             c+=1
             X.append(c)
-            #print('a')
-            #print(vector_to_face(frame))
-
             prediction_signe,probas_signe=prediction_image_proba(knn_signe,frame,'signe')
             prediction_position,probas_position=prediction_image_proba(knn_position,frame,'position')
             for j in range(8):
@@ -68,17 +64,15 @@ def main(path,min_detection_confidence=0.8,display=True):
             if i_position==n_position-1:
                 i_position=0
             else:
-                i_position+=1
-        if type(frameflip) !=type(None) :
-            frameflip = display_vector_from_image(frameflip) 
-        cv2.imshow('cam', frameflip)
+                i_position+=1 
+        cv2.imshow('cam', frameflip)  
         if cv2.waitKey(1) & 0xFF == ord('q'):
             break
 
 if __name__ == '__main__':
-    print(main('data_test/video_maison/WIN_20210415_10_12_37_Pro_Trim.mp4'))
+    #print(main('data_test/video_maison/WIN_20210415_10_12_37_Pro_Trim.mp4'))
     #print(main('data_test/video_maison/repetezlecode.mp4'))
     #print(main('data_test/video_maison/alphabet.mp4'))
     #print(main('data_test/video_maison/1.mp4'))
     #print(main('data_test/video_maison/1_question.mp4'))
-    #print(main('data_test/video_maison/1_grenouille.mp4'))
+    print(main('data_test/video_maison/1_grenouille.mp4'))
