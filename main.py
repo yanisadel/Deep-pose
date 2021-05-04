@@ -22,7 +22,7 @@ def main(path,min_detection_confidence=0.8,display=True):
     i_signe,i_position=0,0
     X=[]
     n_signe=5
-    n_position=1
+    n_position=5
     l_signe=[0 for k in range(n_signe)]
     l_position=[0 for k in range(n_position)]
     Y_temp_signe=[l_signe[:] for k in range(8)]
@@ -45,6 +45,9 @@ def main(path,min_detection_confidence=0.8,display=True):
         if(prediction_image_proba(knn_signe,frame,'signe')!=None) and (prediction_image_proba(knn_position,frame,'position')!=None):
             c+=1
             X.append(c)
+            #print('a')
+            #print(vector_to_face(frame))
+
             prediction_signe,probas_signe=prediction_image_proba(knn_signe,frame,'signe')
             prediction_position,probas_position=prediction_image_proba(knn_position,frame,'position')
             for j in range(8):
@@ -70,9 +73,9 @@ def main(path,min_detection_confidence=0.8,display=True):
             break
 
 if __name__ == '__main__':
-    #print(main('data_test/video_maison/WIN_20210415_10_12_37_Pro_Trim.mp4'))
+    print(main('data_test/video_maison/WIN_20210415_10_12_37_Pro_Trim.mp4'))
     #print(main('data_test/video_maison/repetezlecode.mp4'))
     #print(main('data_test/video_maison/alphabet.mp4'))
     #print(main('data_test/video_maison/1.mp4'))
     #print(main('data_test/video_maison/1_question.mp4'))
-    print(main('data_test/video_maison/1_grenouille.mp4'))
+    #print(main('data_test/video_maison/1_grenouille.mp4'))

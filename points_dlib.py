@@ -33,6 +33,7 @@ def points_face(image,detector=detector,predictor=predictor):
 	"""
 	image = imutils.resize(image,width=600)
 	height,width,_=image.shape
+	print(height,width)
 	gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
 	# détecter les visages
 	rects = detector(gray, 1)
@@ -51,7 +52,7 @@ def points_face(image,detector=detector,predictor=predictor):
 		# et dessine-les sur l'image
 		for (x, y) in shape:
 			cv2.circle(image, (x, y), 1, (0, 0, 255), -1)
-			points.append((x/width,y/height))
+			points.append((1-x/width,1-y/height))
 	# afficher l'image de sortie avec les détections de visage + repères de visage
 	#cv2.imshow("Output", image)
 	#cv2.waitKey(0)

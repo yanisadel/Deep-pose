@@ -77,11 +77,15 @@ def vector_to_face(img, min_detection_confidence=0.7, display=True):
         u1,u2,u3,u4=[head_points['mouth'].x,head_points['mouth'].y],[head_points['reye'].x,head_points['reye'].y],[head_points['leye'].x,head_points['leye'].y],[head_points['nose'].x,head_points['nose'].y]
         norm=norme(u2,u3)
         l=[u1,u2,u3,u4]
+        print('points mediapipe tete')
+        print(l)
         #l=[(float(l[i][0]),float(l[i][1]))  for i in range(4)]
         for i in [0,5,9,13,17]:
             xr,yr=hand_points[i:i+2]       
             for j in range(4):
                 res+=list(((xr-l[j][0])/norm,(yr-l[j][1])/norm))
+        print('vecteurs mediapipe')
+        print(res)
         return(res)
     else:
         if hand_points==None:
@@ -146,6 +150,7 @@ def vector_to_face_dlib(img, min_detection_confidence=0.7, display=True):
         qui représente les points de la main (DROITE)
       
     """
+    temp=[]
     hand_points=data.points_image(img, min_detection_confidence=0.7, display=True)
     res=[]
     head_points=points_face(img)
@@ -153,11 +158,20 @@ def vector_to_face_dlib(img, min_detection_confidence=0.7, display=True):
         l=[]
         norm=norme(head_points[43],head_points[40])
         for i in [1,4,9,14,17,28,34,37,40,43,46,49,55]:
-            l.append(head_points[i])
+            l.append(head_points[i-1])
         for i in [0,5,9,13,17]:
-            xr,yr=hand_points[i:i+2]       
+            #print('points de la main')
+            #print(hand_points)
+            xr,yr=hand_points[3*i:3*i+2]
+            temp.append((xr,yr))     
             for j in range(len(l)):
                 res+=list(((xr-l[j][0])/norm,(yr-l[j][1])/norm))
+        print('points dlib tete')
+        print(l)
+        print('points main')
+        print(temp)  
+        print('vecteurs dlib')
+        print(res)
         return(res)
     else:
         if hand_points==None:
@@ -165,6 +179,7 @@ def vector_to_face_dlib(img, min_detection_confidence=0.7, display=True):
         else:
             print('pas de tête détectée')
         return(None)
+
 #[1,4,9,14,17,28,34,37,40,43,46,49,55]/[0,5,9,13,17]
 def vector_to_face_dlib_from_path(path, min_detection_confidence=0.7, display=True):
     """
@@ -195,13 +210,13 @@ def vector_to_face_dlib_from_path(path, min_detection_confidence=0.7, display=Tr
     return(vector_to_face_dlib(img))
 
 if __name__ == '__main__':
-    print(vector_to_face_dlib_from_path('data_test/LPC/WIN_20210415_08_45_49_Pro.jpg'))
-    print(vector_to_face_from_path('data_test/LPC/WIN_20210415_08_45_49_Pro.jpg'))
+    #print(vector_to_face_dlib_from_path('data_test/LPC/WIN_20210415_08_45_49_Pro.jpg'))
+    #print(vector_to_face_from_path('data_test/LPC/WIN_20210415_08_45_49_Pro.jpg'))
     #print(vector_to_face_dlib_from_path('WIN_20210427_22_01_38_Pro.jpg'))
     #print(vector_to_face_from_path('WIN_20210427_22_01_38_Pro.jpg'))
     #print(vector_to_face_from_path('data_train/niveaux/1/1-1.jpg'))
     #print(normalize_vector((1,2)))
-
+    print(norme((1,2),(1,2)))
 
 
 
