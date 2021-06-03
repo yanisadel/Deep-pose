@@ -12,6 +12,10 @@ from display_vecteur import *
 
 
 def main(path,min_detection_confidence=0.8,display=True):
+    """
+    La fonction main prend en argument le chemin d'une vidéo, et affiche la vidéo avec les signes et positions détectés
+    Elle initialise et entraine un modèle, puis analyse la vidéo
+    """
     cap = cv2.VideoCapture(path)
     mpDraw = mp.solutions.drawing_utils
     mpHands = mp.solutions.hands
