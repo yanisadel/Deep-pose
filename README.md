@@ -7,8 +7,9 @@ Il a été réalisé par Guillaume Grasset-Gothon, Yanis Adel, Mehdi Dahmani, Ro
 Utilisez la commande suivante pour installer les modules : **pip install -r requirements.txt** (cela va installer les modules suivants : mediapipe, opencv-python, scikit-learn, numpy, pandas, matplotlib)  
 
 **1) Lancer le programme**  
+Il suffit de lancer le fichier main.py
 Le fichier main.py contient la fonction main(path), qui prend en argument le chemin (path) d'une vidéo (sous format .mp4 par exemple).  
-La fonction initialise le modèle et l'entraine, et une fois celui-ci entrainé, elle affiche la vidéo avec cette fois-ci les différents signes et positions de main  
+La fonction initialise le modèle et l'entraine, et une fois celui-ci entrainé, elle affiche la vidéo avec cette fois-ci les différents signes et positions de main.1  
 
 **2) Les données d'entrainement**  
 - Les données d'entrainement sont situées dans le dossier data_train.  
